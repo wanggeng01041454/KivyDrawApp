@@ -1,3 +1,4 @@
+#:kivy 2.1.1
 
 <popup>:
     id : pop
@@ -21,9 +22,7 @@
     size_hint: .200, .150
 
 
-ScreenManagement:
-    MainScreen:
- 
+# 主界面
 <MainScreen>:
     
     lab : labe
@@ -65,30 +64,29 @@ ScreenManagement:
     Mybutton:
         on_release:painter.canvas.clear() ; painter.canvas.after.clear()
         pos: root.width*(0.599),0
-        background_normal: 'clear.png'
-       
+        background_normal: 'res/imgs/clear.png'
+
     Mybutton:
         pos: root.width*(0.398),0
         on_press: root.eraser()
-        background_normal: 'eraser.png'
-       
+        background_normal: 'res/imgs/eraser.png'
+
     Mybutton:
         pos: root.width*(0.197),0
         on_press: root.pencil()
-        background_normal: 'pencil.png'
-       
+        background_normal: 'res/imgs/pencil.png'
+
     Mybutton:
         pos: root.width*(0.8),root.height *(0.151)
         on_press: root.sl()
-        background_normal: 'sl.png'
-       
+        background_normal: 'res/imgs/sl.png'
+
     Mybutton:
         pos: root.width*(0.8),root.height *(0.302)
         on_press: root.rect()
-        background_normal: 'rect.png'
+        background_normal: 'res/imgs/rect.png'
     Mybutton:
         text: 'Save'
         pos: root.width*(0.8),root.height *(0.453)
         on_press: painter.save()
         #background_normal: 'rect.png'    
-       

@@ -1,3 +1,8 @@
+import os
+
+# 设置 kivy 的窗口环境变量
+os.environ['KIVY_TEXT'] = 'pil'
+
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics import Color, Ellipse
@@ -20,6 +25,7 @@ class MyPaintApp(App):
 
 if __name__ == '__main__':
     MyPaintApp().run()
+
 
 
 # 能够输出 PIL.Image.Image 类型的图片，并经网络，无损压缩编码后传输到服务端；同时从服务端接收

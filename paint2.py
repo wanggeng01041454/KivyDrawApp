@@ -190,16 +190,25 @@ class MainScreen(Screen):
                 
 
 
-class ScreenManagement(ScreenManager):
-    pass
 
-presentation = Builder.load_file("kvf.kv")
 
-class painApp(App):
+class MainApplication(App):
+
+    screen_manager = None
+    main_screen = None
+
     def build(self):
-        print("start")
-        return presentation
+        """
+        This method is automatically called when the app is initialized
+        :return:
+        """
+        Builder.load_file("ui/MainUi.kv")
+
+        self.screen_manager = ScreenManager()
+        self.main_screen = MainScreen()
+        self.screen_manager.add_widget(self.main_screen)
+        return self.screen_manager
 
 
 if __name__== "__main__":
-    painApp().run()
+    MainApplication().run()
