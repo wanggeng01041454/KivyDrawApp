@@ -1,30 +1,37 @@
 import os
 
+from kivy.app import App
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager
+
+from paint2 import MainScreen
+
 # 设置 kivy 的窗口环境变量
 os.environ['KIVY_TEXT'] = 'pil'
 
-from kivy.app import App
-from kivy.uix.widget import Widget
-from kivy.graphics import Color, Ellipse
+class MainApplication(App):
+    """
+    This is the main application class of the app.
+    """
 
-
-class MyPaintWidget(Widget):
-
-    def on_touch_down(self, touch):
-        with self.canvas:
-            Color(1, 1, 0)
-            d = 30.
-            Ellipse(pos=(touch.x - d / 2, touch.y - d / 2), size=(d, d))
-
-
-class MyPaintApp(App):
+    screen_manager = None
+    main_screen = None
 
     def build(self):
-        return MyPaintWidget()
+        """
+        This method is automatically called when the app is initialized
+        :return:
+        """
+        Builder.load_file("ui/MainUi.kv")
+
+        self.screen_manager = ScreenManager()
+        self.main_screen = MainScreen()
+        self.screen_manager.add_widget(self.main_screen)
+        return self.screen_manager
 
 
 if __name__ == '__main__':
-    MyPaintApp().run()
+    MainApplication().run()
 
 
 

@@ -1,5 +1,6 @@
 #:kivy 2.1.1
 
+# 颜色选择器对话框
 <popup>:
     id : pop
     title: 'Color Select'
@@ -26,13 +27,6 @@
 <MainScreen>:
     
     lab : labe
-    Label:
-        pos: root.width*(0.3),root.height *(0.85)
-        font_size: 25
-        color: 0, 1, 0, 1
-        size: 150, 50
-        size_hint: .200, .150
-        text:"Click Anywhere to begin"
     Painter:
         id: painter
         
@@ -41,6 +35,7 @@
         pos: root.width*(0.8),0
         text: 'Color Select'
         on_press: root.open_it1()
+        
     FloatLayout:
         orientation: "vertical"
         
@@ -85,8 +80,4 @@
         pos: root.width*(0.8),root.height *(0.302)
         on_press: root.rect()
         background_normal: 'res/imgs/rect.png'
-    Mybutton:
-        text: 'Save'
-        pos: root.width*(0.8),root.height *(0.453)
-        on_press: painter.save()
-        #background_normal: 'rect.png'    
+

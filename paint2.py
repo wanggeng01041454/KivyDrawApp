@@ -1,10 +1,7 @@
-from kivy.app import App
-from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivy.graphics import Line, Color
-from random import random
-from kivy.uix.colorpicker import ColorPicker 
+from kivy.uix.colorpicker import ColorPicker
 from kivy.properties import ListProperty
 from kivy.uix.popup import Popup
 
@@ -47,6 +44,7 @@ class Painter(Widget):
      
 
     def on_touch_down(self, touch):
+        print("touch down: ", touch.x, touch.y)
         #print "down"
         global xs,ys,xboun,yboun,press,wide
         press = 1
@@ -142,7 +140,8 @@ class Painter(Widget):
                         self.canvas.after.clear() 
         self.canvas.after.clear()
         default(self)                    
-        press=0                     
+        press=0
+
 class Cpicker(ColorPicker):
     pass
 
@@ -192,23 +191,3 @@ class MainScreen(Screen):
 
 
 
-class MainApplication(App):
-
-    screen_manager = None
-    main_screen = None
-
-    def build(self):
-        """
-        This method is automatically called when the app is initialized
-        :return:
-        """
-        Builder.load_file("ui/MainUi.kv")
-
-        self.screen_manager = ScreenManager()
-        self.main_screen = MainScreen()
-        self.screen_manager.add_widget(self.main_screen)
-        return self.screen_manager
-
-
-if __name__== "__main__":
-    MainApplication().run()
