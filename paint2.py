@@ -5,6 +5,7 @@ from kivy.uix.colorpicker import ColorPicker
 from kivy.properties import ListProperty
 from kivy.uix.popup import Popup
 
+from qwtpainterwidget import QwtPainterWidget
 
 sline = False
 clr=[1,1,0.5,1]
@@ -35,112 +36,6 @@ def default (self):
         col =[0,0,0,1]    
         Color(*col)
         Line(rectangle=(0.25* self.width-25, 0.2 *self.height-25, self.width*0.5 +50, self.height*0.6+50),width=25)
-
-class Painter(Widget):
-    
-    col = ListProperty(clr)
-    def save(self):
-        self.export_to_png("image.png")    
-     
-
-    def on_touch_down(self, touch):
-        print("touch down: ", touch.x, touch.y)
-        #print "down"
-        global xs,ys,xboun,yboun,press,wide
-        press = 1
-        if incanvasxy(self,touch.x,touch.y):   
-            
-            self.col= retclr()
-            if Widget.on_touch_down(self, touch):
-                xs=touch.x
-                ys=touch.y    
-                return True
-
-            with self.canvas:
-                Color(*self.col)
-                #d = 30
-                #Ellipse(pos=(touch.x - d / 2,touch.y - d / 2), size=(d,d))
-                touch.ud['line'] = Line(points=(touch.x, touch.y),width=wide)
-                #if sline:
-                xs=touch.x
-                ys=touch.y
-        else:
-            xs=touch.x
-            ys=touch.y
-        default(self)    
-    def on_touch_move(self, touch):
-        #print "move"
-        global xs,ys,xboun,yboun,wide
-        if incanvasxy(self,touch.x,touch.y) and incanvasxy(self,xs,ys) :
-            self.col= retclr()
-            if sline:
-                if Widget.on_touch_move(self, touch):
-                    return True
-                with self.canvas.after:
-                    self.canvas.after.clear()
-                    #if skip > 5:
-                     #   Color(*[0,0,0,1])
-                      #  Line(points=(xp,yp,xs,ys),width=4)
-                    Color(*self.col)
-                    Line(points=(touch.x,touch.y,xs,ys),width=wide)
-                xboun=touch.x
-                yboun=touch.y
-            elif rect:
-                if Widget.on_touch_move(self, touch):
-                    return True
-                with self.canvas.after:
-                    self.canvas.after.clear()
-                    Color(*self.col)
-                    Line(rectangle=(xs, ys, touch.x-xs, touch.y-ys),width=wide)
-                xboun=touch.x
-                yboun=touch.y
-                    
-            else:
-                if incanvasxy(self,xs,ys):
-                    touch.ud["line"].points += [touch.x, touch.y]
-        default(self)
-    def on_touch_up(self, touch):
-        #print "up"
-        global xs,ys,press,wide
-        
-        if incanvasxy(self,xs,ys):
-            if incanvasxy(self,touch.x,touch.y) :    
-                
-                if sline:
-                    
-                    self.col= retclr()
-                    
-                    if Widget.on_touch_down(self, touch):
-                        return True
-                    with self.canvas:
-                        Color(*self.col)
-                        Line(points=(touch.x,touch.y,xs,ys),width=wide) 
-                if rect:
-                    
-                    self.col= retclr()
-                    
-                    if Widget.on_touch_down(self, touch):
-                        return True
-                    with self.canvas:
-                        Color(*self.col)
-                        Line(rectangle=(xs, ys, touch.x-xs, touch.y-ys),width=wide)         
-            else:
-                if press:
-                    if sline :
-                        with self.canvas:
-                                if xboun:
-                                    Color(*self.col)
-                                    Line(points=(xboun,yboun,xs,ys),width=wide)
-                        self.canvas.after.clear()
-                    if rect :
-                        with self.canvas:
-                                if xboun:
-                                    Color(*self.col)
-                                    Line(rectangle=(xs, ys, xboun-xs, yboun-ys),width=wide)
-                        self.canvas.after.clear() 
-        self.canvas.after.clear()
-        default(self)                    
-        press=0
 
 class Cpicker(ColorPicker):
     pass
