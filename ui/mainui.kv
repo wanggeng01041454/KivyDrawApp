@@ -1,0 +1,99 @@
+#:kivy 2.1.1
+
+# 颜色选择器对话框
+<popup>:
+    id : pop
+    title: 'Color Select'
+    size_hint: None, None
+    size: 400,400
+    auto_dismiss: False
+    Cpicker:
+        on_color: root.hello(self.color)
+        Button:
+            text: 'Select'
+            pos_hint: {'center_x': .76, 'y': .03}
+            size_hint: None, None
+            size: 100, 50
+            on_press: root.dismiss()
+
+<Mybutton@Button>:
+    font_size: 25
+    color: 0, 1, 0, 1
+    size: 60, 60
+    size_hint: .200, .150
+
+
+# 主界面
+<MainScreen>:
+    
+    lab : labe.__self__
+    painter: painter.__self__
+    QwtPainterWidget:
+        id: painter
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+    
+    Mybutton:
+        pos: root.width*(0.8),0
+        text: 'Color Select'
+        on_press: root.open_it1()
+        
+    FloatLayout:
+
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 1, 0, 0, 0.5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: "horizontal"
+            size_hint: None, None
+            pos: 10, 10
+            size: 600, 100
+        
+            Label:
+                id: labe
+                # pos: root.width*(0),root.height *(0.101)
+                font_size: 25
+                color: 0, 1, 0, 1
+                size: 60, 60
+                text:"Width : 1"
+                    
+            Slider:
+                # pos: root.width*(0.05),root.height *(0)
+                step : 0.1
+                value: 1
+                min: 1
+                max: 20
+                on_value : root.on_width_change(args[1])
+
+            Mybutton:
+                on_release:painter.canvas.clear() ; painter.canvas.after.clear()
+                # pos: root.width*(0.599),0
+                background_normal: 'res/imgs/clear.png'
+
+            Mybutton:
+                # pos: root.width*(0.398),0
+                on_press: root.eraser()
+                background_normal: 'res/imgs/eraser.png'
+
+            Mybutton:
+                # pos: root.width*(0.197),0
+                on_press: root.on_select_pencil()
+                background_normal: 'res/imgs/pencil.png'
+
+            Mybutton:
+                # pos: root.width*(0.8),root.height *(0.151)
+                on_press: root.sl()
+                background_normal: 'res/imgs/sl.png'
+
+            Mybutton:
+                # pos: root.width*(0.8),root.height *(0.302)
+                on_press: root.on_select_rect()
+                background_normal: 'res/imgs/rect.png'
+

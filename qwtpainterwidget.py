@@ -1,17 +1,11 @@
-from enum import Enum
-
+# -*- coding: utf-8 -*-
+from kivy.graphics import Color
+from kivy.input import MotionEvent
 from kivy.uix.widget import Widget
 
-class PlotToolType(Enum):
-    """
-    绘图类型
-    """
-    # 铅笔
-    PENCIL = 1
-    # 直线
-    LINE = 2
-    # 矩形
-    RECTANGLE = 3
+from plotutil.abstractplottool import AbstractPlotTool
+from plotutil.plottoolmanager import PlotToolManager
+from plotutil.plottooltype import PlotToolType
 
 
 class QwtPainterWidget(Widget):
@@ -19,111 +13,45 @@ class QwtPainterWidget(Widget):
         代表绘图的widget
     """
 
-    # 默认绘图类型
-    plot_tool_type: PlotToolType = PlotToolType.PENCIL
+    # 绘图工具管理器
+    _tool_manager: PlotToolManager
 
-    # todo 定义 plot tool 的多个子类，使用策略的方式实现各种绘图
+    # 当前绘图工具
+    _cur_plot_tool: AbstractPlotTool
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._tool_manager = PlotToolManager(self)
+        # 设置默认类型
+        self._cur_plot_tool = self._tool_manager.set_tool_type(PlotToolType.PENCIL)
 
-    def save(self):
-        self.export_to_png("image.png")
+    def on_touch_down(self, touch: MotionEvent) -> bool:
+        return self._cur_plot_tool.on_touch_down(touch)
 
+    def on_touch_move(self, touch) -> bool:
+        return self._cur_plot_tool.on_touch_move(touch)
 
-    def on_touch_down(self, touch):
-        print("touch down: ", touch.x, touch.y)
-        # print "down"
-        global xs ,ys ,xboun ,yboun ,press ,wide
-        press = 1
-        if incanvasxy(self ,touch.x ,touch.y):
+    def on_touch_up(self, touch) -> bool:
+        return self._cur_plot_tool.on_touch_up(touch)
 
-            self.co l= retclr()
-            if Widget.on_touch_down(self, touch):
-                x s =touch.x
-                y s =touch.y
-                return True
+    def set_line_width(self, width: float):
+        """
+        设置线宽
+        """
+        self._tool_manager.set_line_width(width)
+        pass
 
-            with self.canvas:
-                Color(*self.col)
-                # d = 30
-                # Ellipse(pos=(touch.x - d / 2,touch.y - d / 2), size=(d,d))
-                touch.ud['line'] = Line(points=(touch.x, touch.y) ,width=wide)
-                # if sline:
-                x s =touch.x
-                y s =touch.y
-        else:
-            x s =touch.x
-            y s =touch.y
-        default(self)
-    def on_touch_move(self, touch):
-        # print "move"
-        global xs ,ys ,xboun ,yboun ,wide
-        if incanvasxy(self ,touch.x ,touch.y) and incanvasxy(self ,xs ,ys) :
-            self.co l= retclr()
-            if sline:
-                if Widget.on_touch_move(self, touch):
-                    return True
-                with self.canvas.after:
-                    self.canvas.after.clear()
-                    # if skip > 5:
-                    #   Color(*[0,0,0,1])
-                    #  Line(points=(xp,yp,xs,ys),width=4)
-                    Color(*self.col)
-                    Line(points=(touch.x ,touch.y ,xs ,ys) ,width=wide)
-                xbou n =touch.x
-                ybou n =touch.y
-            elif rect:
-                if Widget.on_touch_move(self, touch):
-                    return True
-                with self.canvas.after:
-                    self.canvas.after.clear()
-                    Color(*self.col)
-                    Line(rectangle=(xs, ys, touch. x -xs, touch. y -ys) ,width=wide)
-                xbou n =touch.x
-                ybou n =touch.y
+    def set_line_color(self, color: tuple):
+        """
+        设置线颜色
+        """
+        self._tool_manager.set_line_color(color)
+        pass
 
-            else:
-                if incanvasxy(self ,xs ,ys):
-                    touch.ud["line"].points += [touch.x, touch.y]
-        default(self)
-    def on_touch_up(self, touch):
-        # print "up"
-        global xs ,ys ,press ,wide
+    def set_tool_type(self, tool_type: PlotToolType):
+        """
+        设置绘图工具类型
+        """
+        self._cur_plot_tool = self._tool_manager.set_tool_type(tool_type)
+        pass
 
-        if incanvasxy(self ,xs ,ys):
-            if incanvasxy(self ,touch.x ,touch.y) :
-
-                if sline:
-
-                    self.co l= retclr()
-
-                    if Widget.on_touch_down(self, touch):
-                        return True
-                    with self.canvas:
-                        Color(*self.col)
-                        Line(points=(touch.x ,touch.y ,xs ,ys) ,width=wide)
-                if rect:
-
-                    self.co l= retclr()
-
-                    if Widget.on_touch_down(self, touch):
-                        return True
-                    with self.canvas:
-                        Color(*self.col)
-                        Line(rectangle=(xs, ys, touch. x -xs, touch. y -ys) ,width=wide)
-            else:
-                if press:
-                    if sline :
-                        with self.canvas:
-                            if xboun:
-                                Color(*self.col)
-                                Line(points=(xboun ,yboun ,xs ,ys) ,width=wide)
-                        self.canvas.after.clear()
-                    if rect :
-                        with self.canvas:
-                            if xboun:
-                                Color(*self.col)
-                                Line(rectangle=(xs, ys, xbou n -xs, ybou n -ys) ,width=wide)
-                        self.canvas.after.clear()
-        self.canvas.after.clear()
-        default(self)
-        pres s =0
