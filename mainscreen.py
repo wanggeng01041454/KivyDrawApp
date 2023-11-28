@@ -1,12 +1,15 @@
-from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivy.graphics import Line, Color
 from kivy.uix.colorpicker import ColorPicker
 from kivy.properties import ListProperty
 from kivy.uix.popup import Popup
 
+from kivymd.uix.button import MDIconButton
+from kivymd.uix.screen import MDScreen
+
 from plotutil.plottooltype import PlotToolType
 from qwtpainterwidget import QwtPainterWidget  # 解析 kv 文件时需要
+
 
 class Cpicker(ColorPicker):
     pass
@@ -19,7 +22,7 @@ class popup(Popup):
         clr = y
 
 
-class MainScreen(Screen):
+class MainScreen(MDScreen):
 
     def open_it1(self):
         popup().open()

@@ -1,8 +1,9 @@
 import os
 
-from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager
+
+from kivymd.app import MDApp
+from kivymd.uix.screenmanager import ScreenManager
 
 from mainscreen import MainScreen
 
@@ -10,7 +11,7 @@ from mainscreen import MainScreen
 os.environ['KIVY_TEXT'] = 'pil'
 
 
-class MainApplication(App):
+class MainApplication(MDApp):
     """
     This is the main application class of the app.
     """

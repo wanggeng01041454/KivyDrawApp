@@ -16,11 +16,7 @@
             size: 100, 50
             on_press: root.dismiss()
 
-<Mybutton@Button>:
-    font_size: 25
-    color: 0, 1, 0, 1
-    size: 60, 60
-    size_hint: .200, .150
+
 
 
 # 主界面
@@ -36,13 +32,9 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
-    
-    Mybutton:
-        pos: root.width*(0.8),0
-        text: 'Color Select'
-        on_press: root.open_it1()
-        
-    FloatLayout:
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
 
         BoxLayout:
             canvas.before:
@@ -52,9 +44,7 @@
                     pos: self.pos
                     size: self.size
             orientation: "horizontal"
-            size_hint: None, None
-            pos: 10, 10
-            size: 600, 100
+            size_hint: 0.7, 0.12
         
             Label:
                 id: labe
@@ -72,28 +62,33 @@
                 max: 20
                 on_value : root.on_width_change(args[1])
 
-            Mybutton:
+            Button:
                 on_release:painter.canvas.clear() ; painter.canvas.after.clear()
                 # pos: root.width*(0.599),0
                 background_normal: 'res/imgs/clear.png'
 
-            Mybutton:
+            Button:
                 # pos: root.width*(0.398),0
                 on_press: root.eraser()
                 background_normal: 'res/imgs/eraser.png'
 
-            Mybutton:
+            MDIconButton:
+                icon: 'res/imgs/pencil.png'
+                icon_size: 64
                 # pos: root.width*(0.197),0
                 on_press: root.on_select_pencil()
-                background_normal: 'res/imgs/pencil.png'
 
-            Mybutton:
+            Button:
                 # pos: root.width*(0.8),root.height *(0.151)
                 on_press: root.sl()
                 background_normal: 'res/imgs/sl.png'
 
-            Mybutton:
+            Button:
                 # pos: root.width*(0.8),root.height *(0.302)
                 on_press: root.on_select_rect()
                 background_normal: 'res/imgs/rect.png'
 
+            Button:
+                pos: root.width*(0.8),0
+                text: 'Color Select'
+                on_press: root.open_it1()
