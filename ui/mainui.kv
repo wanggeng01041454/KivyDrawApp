@@ -50,22 +50,22 @@
                 max: 20
                 on_value : root.on_width_change(args[1])
 
-            Button:
-                on_release:painter.canvas.clear() ; painter.canvas.after.clear()
-                # pos: root.width*(0.599),0
-                background_normal: 'res/imgs/trash-can.png'
-
-            Button:
-                # pos: root.width*(0.398),0
-                on_press: root.eraser()
-                background_normal: 'res/imgs/eraser.png'
-
             MDIconButton:
                 icon: 'res/imgs/pencil.png'
                 icon_size: 64
                 line_width: 1
                 line_color: 0, 0, 0, 1
                 on_press: root.on_select_pencil()
+
+            MDIconButton:
+                icon: 'res/imgs/eraser.png'
+                icon_size: 64
+                on_press: root.eraser()
+
+            MDIconButton:
+                icon: 'res/imgs/trash-can.png'
+                icon_size: 64
+                on_release:painter.canvas.clear() ; painter.canvas.after.clear()
 
             Button:
                 # pos: root.width*(0.8),root.height *(0.151)

@@ -25,6 +25,7 @@ class QwtPainterWidget(Widget):
         # 设置默认类型
         self._cur_plot_tool = self._tool_manager.set_tool_type(PlotToolType.PENCIL)
 
+    # todo 在 ubuntu 系统下，发现在程序失去焦点时，仍旧可以获得 触摸板的事件，导致绘图
     def on_touch_down(self, touch: MotionEvent) -> bool:
         return self._cur_plot_tool.on_touch_down(touch)
 
