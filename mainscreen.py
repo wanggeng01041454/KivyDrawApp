@@ -5,6 +5,8 @@ from kivy.properties import ListProperty
 from kivy.uix.popup import Popup
 
 from kivymd.uix.button import MDIconButton
+from kivymd.uix.slider import MDSlider
+from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.screen import MDScreen
 
 from plotutil.plottooltype import PlotToolType
@@ -42,16 +44,16 @@ class MainScreen(MDScreen):
     def eraser(self):
         pass
 
-    def on_width_change(self, value: float):
+    def on_width_change(self, width: float):
         """
         当宽度改变时调用
-        :param value:
+        :param width:
         :return:
         """
         # 根据实际使用经验，从界面得到的值有时会包含小数点后很多位，这里只保留1位小数
-        value = round(value, 1)
-        self.lab.text = "Width : " + str(value)
-        self.painter.set_line_width(value)
+        width = round(width, 1)
+        # self.lab.text = "Width : " + str(value)
+        self.painter.set_line_width(width)
         pass
 
     def on_select_pencil(self):

@@ -21,8 +21,7 @@
 
 # 主界面
 <MainScreen>:
-    
-    lab : labe.__self__
+    name: 'main'
     painter: painter.__self__
     QwtPainterWidget:
         id: painter
@@ -32,30 +31,19 @@
             Rectangle:
                 pos: self.pos
                 size: self.size
+
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
 
-        BoxLayout:
-            canvas.before:
-                Color:
-                    rgba: 1, 0, 0, 0.5
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+        MDBoxLayout:
             orientation: "horizontal"
-            size_hint: 0.7, 0.12
-        
-            Label:
-                id: labe
-                # pos: root.width*(0),root.height *(0.101)
-                font_size: 25
-                color: 0, 1, 0, 1
-                size: 60, 60
-                text:"Width : 1"
-                    
-            Slider:
-                # pos: root.width*(0.05),root.height *(0)
+            size_hint_x: 0.8
+            adaptive_height: True
+            spacing: 10
+
+            MDSlider:
+                hint: False
                 step : 0.1
                 value: 1
                 min: 1
@@ -65,7 +53,7 @@
             Button:
                 on_release:painter.canvas.clear() ; painter.canvas.after.clear()
                 # pos: root.width*(0.599),0
-                background_normal: 'res/imgs/clear.png'
+                background_normal: 'res/imgs/trash-can.png'
 
             Button:
                 # pos: root.width*(0.398),0
@@ -75,18 +63,19 @@
             MDIconButton:
                 icon: 'res/imgs/pencil.png'
                 icon_size: 64
-                # pos: root.width*(0.197),0
+                line_width: 1
+                line_color: 0, 0, 0, 1
                 on_press: root.on_select_pencil()
 
             Button:
                 # pos: root.width*(0.8),root.height *(0.151)
                 on_press: root.sl()
-                background_normal: 'res/imgs/sl.png'
+                background_normal: 'res/imgs/line.png'
 
             Button:
                 # pos: root.width*(0.8),root.height *(0.302)
                 on_press: root.on_select_rect()
-                background_normal: 'res/imgs/rect.png'
+                background_normal: 'res/imgs/rectangle.png'
 
             Button:
                 pos: root.width*(0.8),0
