@@ -45,10 +45,10 @@ class MainScreen(MDScreen):
         self.ctn += 1
         print("ctn = ", self.ctn)
         if self.ctn % 2 == 0:
-            self.color_button.show_color = [1, 0, 0, 1]
+            self.color_button.represent_color = [1, 0, 0, 1]
             self.ctn = 0
         else:
-            self.color_button.show_color = [0, 1, 0, 1]
+            self.color_button.represent_color = [0, 1, 0, 1]
         pass
 
     def eraser(self):

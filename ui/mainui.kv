@@ -22,8 +22,8 @@
 # 主界面
 <MainScreen>:
     name: 'main'
-    painter: painter.__self__
-    color_button: color_button.__self__
+    painter: painter
+    color_button: color_button
     QwtPainterWidget:
         id: painter
         canvas.before:
@@ -51,6 +51,8 @@
             #     max: 20
             #     on_value : root.on_width_change(args[1])
             ColorCircularButton:
+                # 关闭显示边框
+                display_border: False
                 id: color_button
                 on_press: root.open_it1()
 
