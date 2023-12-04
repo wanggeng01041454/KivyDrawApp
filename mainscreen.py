@@ -1,7 +1,7 @@
 from kivy.uix.widget import Widget
 from kivy.graphics import Line, Color
 from kivy.uix.colorpicker import ColorPicker
-from kivy.properties import ListProperty
+from kivy.properties import ListProperty, ObjectProperty
 from kivy.uix.popup import Popup
 
 from kivymd.uix.button import MDIconButton
@@ -11,6 +11,8 @@ from kivymd.uix.screen import MDScreen
 
 from plotutil.plottooltype import PlotToolType
 from qwtpainterwidget import QwtPainterWidget  # 解析 kv 文件时需要
+
+from colorcircularbutton import ColorCircularButton
 
 
 class Cpicker(ColorPicker):
@@ -25,21 +27,29 @@ class popup(Popup):
 
 
 class MainScreen(MDScreen):
+    painter = ObjectProperty(None)
+    color_button = ObjectProperty(None)
+    ctn = 0
 
-    def open_it1(self):
-        popup().open()
-
-    def set_default_state(self):
-        """
-        设置默认状态
-        :return:
-        """
-
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # 设置默认状态
         self.painter.set_line_width(1.0)
         self.painter.set_tool_type(PlotToolType.PENCIL)
         self.painter.set_line_color((0, 0, 0, 1))
+
         pass
 
+    def open_it1(self):
+        # popup().open()
+        self.ctn += 1
+        print("ctn = ", self.ctn)
+        if self.ctn % 2 == 0:
+            self.color_button.show_color = [1, 0, 0, 1]
+            self.ctn = 0
+        else:
+            self.color_button.show_color = [0, 1, 0, 1]
+        pass
 
     def eraser(self):
         pass

@@ -28,7 +28,6 @@ class MainApplication(MDApp):
 
         self.screen_manager = ScreenManager()
         self.main_screen = MainScreen()
-        self.main_screen.set_default_state()
         self.screen_manager.add_widget(self.main_screen)
         return self.screen_manager
 
