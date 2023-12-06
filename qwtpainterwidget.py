@@ -13,6 +13,8 @@ class QwtPainterWidget(Widget):
         代表绘图的widget
     """
 
+    # todo 如何实现撤销和重做功能
+
     # 绘图工具管理器
     _tool_manager: PlotToolManager
 
