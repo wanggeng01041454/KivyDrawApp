@@ -1,18 +1,54 @@
 #:kivy 2.1.1
 
-# 颜色选择器对话框
-<ColorWidthDialog>:
-    id : pop
-    # 禁止点击外部关闭对话框
-    title: "choose line width and color"
+# 颜色和线条宽度选择对话框的主体
+<ColorWidthDialogContent>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "200dp"
+    result_btn: result_btn
+    # 第一行，左侧显示结果，右侧显示一个宽度选择器
     BoxLayout:
-        orientation: "vertical"
-        Button:
-            text: "close"
-        Button:
-            text: "xxxx"
+        orientation: "horizontal"
+        # 显示结果的按钮
+        ColorCircularButton:
+            id: result_btn
+            size_hint_x: 0.4
+        MDSlider:
+            id: width_slider
+            hint: False
+            step : 1
+            value: 3
+            min: 3
+            max: 30
+            on_value : root.on_width_change(*args)
+    # 第二行，显示4个颜色选择器
+    BoxLayout:
+        orientation: "horizontal"
+        # 赤色
+        ColorCircularButton:
+            represent_color: [1, 0, 0, 1]
+            display_border: False
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 橙色
+        ColorCircularButton:
+            represent_color: [1, 0, 0, 1]
+            display_border: False
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+# 1、【RGB】【CMYK】0,100,100,0；
 
+# 2、橙色【RGB】255,165,0【CMYK】0,35,100,0；
 
+# 3、黄色【RGB】255,255,0【CMYK】0,0,100,0；
+
+# 4、绿色【RGB】0,255,0【CMYK】100,0,100,0；
+
+# 5、青色【RGB】0,127,255【CMYK】100,50,0,0；
+
+# 6、蓝色【RGB】0,0,255【CMYK】100,100,0,0；
+
+# 7、紫色【RGB】139,0,255【CMYK】45,100,0,0。
 
 # 主界面
 <MainScreen>:

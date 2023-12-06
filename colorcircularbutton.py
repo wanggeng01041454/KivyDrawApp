@@ -15,7 +15,7 @@ class ColorCircularButton(Button):
     represent_color = ListProperty([0, 0, 0, 1])
 
     """represent_width 属性: 所代表的线宽"""
-    represent_width = NumericProperty(1.0)
+    represent_width = NumericProperty(5.0)
 
     """是否显示边框, 默认是显示的"""
     display_border = BooleanProperty(True)
@@ -44,7 +44,7 @@ class ColorCircularButton(Button):
             Color(*self.represent_color)
             # todo 如果在手机和windows上显示的圆也不好的话，就换成正方形
             # d是圆的直径； 为了显示线宽，直径是线宽的两倍
-            d = self.represent_width * 2
+            d = self.represent_width
             # 画填充圆
             pos_x = self.center_x - d / 2
             pos_y = self.center_y - d / 2

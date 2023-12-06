@@ -4,7 +4,6 @@ from kivy.properties import ListProperty, ObjectProperty
 
 
 from kivymd.uix.button import MDIconButton
-from kivymd.uix.slider import MDSlider
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.screen import MDScreen
 
@@ -18,6 +17,7 @@ from colorwidthdialog import ColorWidthDialog
 class MainScreen(MDScreen):
     painter = ObjectProperty(None)
     color_button = ObjectProperty(None)
+    color_width_dialog: ColorWidthDialog = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -25,11 +25,13 @@ class MainScreen(MDScreen):
         self.painter.set_line_width(1.0)
         self.painter.set_tool_type(PlotToolType.PENCIL)
         self.painter.set_line_color((0, 0, 0, 1))
+
+        self.color_width_dialog = ColorWidthDialog()
         pass
 
     def open_it1(self):
-        dialog = ColorWidthDialog()
-        dialog.open()
+
+        self.color_width_dialog.open()
 
         pass
 
