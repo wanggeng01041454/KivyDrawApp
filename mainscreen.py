@@ -10,7 +10,7 @@ from kivymd.uix.screen import MDScreen
 from plotutil.plottooltype import PlotToolType
 from qwtpainterwidget import QwtPainterWidget  # 解析 kv 文件时需要
 
-from colorcircularbutton import ColorCircularButton
+from colorwidthrepresentbutton import ColorWidthRepresentButton
 from colorwidthdialog import ColorWidthDialog
 
 
@@ -22,17 +22,28 @@ class MainScreen(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # 设置默认状态
-        self.painter.set_line_width(1.0)
+        default_width = 3.0
+        default_color = [0, 0, 0, 1]
         self.painter.set_tool_type(PlotToolType.PENCIL)
-        self.painter.set_line_color((0, 0, 0, 1))
+        self.painter.set_line_width(default_width)
+        self.painter.set_line_color(default_color)
+        self.color_button.represent_color = default_color
+        self.color_button.represent_width = default_width
 
         self.color_width_dialog = ColorWidthDialog()
+        # 绑定事件
+        self.color_width_dialog.bind(on_ok_btn_release=self.on_color_width_dialog_ok_btn_release)
         pass
 
-    def open_it1(self):
-
+    def open_color_width_dialog(self):
         self.color_width_dialog.open()
+        pass
 
+    def on_color_width_dialog_ok_btn_release(self, instance: ColorWidthDialog, color: list, width: float):
+        self.color_button.represent_color = color
+        self.painter.set_line_color(color)
+        self.color_button.represent_width = width
+        self.painter.set_line_width(width)
         pass
 
     def eraser(self):

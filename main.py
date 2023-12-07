@@ -1,4 +1,8 @@
-import os
+# -*- coding: utf-8 -*-
+
+# 导入配置文件，并在导入任何 kivy 模块之前调用
+import appconfig
+appconfig.config_app()
 
 from kivy.lang import Builder
 
@@ -6,9 +10,6 @@ from kivymd.app import MDApp
 from kivymd.uix.screenmanager import ScreenManager
 
 from mainscreen import MainScreen
-
-# 设置 kivy 的窗口环境变量
-os.environ['KIVY_TEXT'] = 'pil'
 
 
 class MainApplication(MDApp):

@@ -10,9 +10,12 @@
     BoxLayout:
         orientation: "horizontal"
         # 显示结果的按钮
-        ColorCircularButton:
+        ColorWidthRepresentButton:
             id: result_btn
-            size_hint_x: 0.4
+            size_hint_x: 0.5
+            display_type: "line"
+            # 需要和 MDSlider 的初始值保持一致
+            represent_width: 3
         MDSlider:
             id: width_slider
             hint: False
@@ -25,30 +28,56 @@
     BoxLayout:
         orientation: "horizontal"
         # 赤色
-        ColorCircularButton:
+        ColorWidthRepresentButton:
             represent_color: [1, 0, 0, 1]
-            display_border: False
+            display_type: "circle"
             represent_width: 35
             on_press: root.on_color_change(*args)
         # 橙色
-        ColorCircularButton:
-            represent_color: [1, 0, 0, 1]
-            display_border: False
+        ColorWidthRepresentButton:
+            represent_color: [1, 0.647, 0, 1]
+            display_type: "circle"
             represent_width: 35
             on_press: root.on_color_change(*args)
-# 1、【RGB】【CMYK】0,100,100,0；
-
-# 2、橙色【RGB】255,165,0【CMYK】0,35,100,0；
-
-# 3、黄色【RGB】255,255,0【CMYK】0,0,100,0；
-
-# 4、绿色【RGB】0,255,0【CMYK】100,0,100,0；
-
-# 5、青色【RGB】0,127,255【CMYK】100,50,0,0；
-
-# 6、蓝色【RGB】0,0,255【CMYK】100,100,0,0；
-
-# 7、紫色【RGB】139,0,255【CMYK】45,100,0,0。
+        # 黄色
+        ColorWidthRepresentButton:
+            represent_color: [1, 1, 0, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 绿色
+        ColorWidthRepresentButton:
+            represent_color: [0, 1, 0, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+    # 第三行，显示3个颜色选择器 + 1个颜色选择按钮
+    BoxLayout:
+        orientation: "horizontal"
+        # 青色
+        ColorWidthRepresentButton:
+            represent_color: [0, 0.5, 1, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 蓝色
+        ColorWidthRepresentButton:
+            represent_color: [0, 0, 1, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 紫色
+        ColorWidthRepresentButton:
+            represent_color: [0.545, 0, 1, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 颜色选择按钮
+        MDIconButton:
+            size_hint: 1, 1
+            icon: 'res/imgs/color-picker.png'
+            icon_size: 50
+            on_press: root.open_color_picker()
 
 # 主界面
 <MainScreen>:
@@ -74,18 +103,10 @@
             adaptive_height: True
             spacing: 10
 
-            # MDSlider:
-            #     hint: False
-            #     step : 0.1
-            #     value: 1
-            #     min: 1
-            #     max: 20
-            #     on_value : root.on_width_change(args[1])
-            ColorCircularButton:
-                # 关闭显示边框
-                display_border: False
+            ColorWidthRepresentButton:
                 id: color_button
-                on_press: root.open_it1()
+                display_type: "line"
+                on_press: root.open_color_width_dialog()
 
             MDIconButton:
                 icon: 'res/imgs/pencil.png'
