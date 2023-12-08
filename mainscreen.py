@@ -79,6 +79,7 @@ class MainScreen(MDScreen):
         选择直线工具
         :return:
         """
+        self.painter.set_tool_type(PlotToolType.LINE)
         pass
 
     def on_select_rect(self):

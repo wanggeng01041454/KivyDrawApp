@@ -2,6 +2,7 @@
 from kivy.uix.widget import Widget
 
 from plotutil.abstractplottool import AbstractPlotTool
+from plotutil.linetool import LineTool
 from plotutil.penciltool import PencilTool
 from plotutil.plottooltype import PlotToolType
 from plotutil.rectangletool import RectangleTool
@@ -27,6 +28,7 @@ class PlotToolManager:
     def __init__(self, tool_parent: Widget):
         self._type2tool = dict()
         self._type2tool[PlotToolType.PENCIL] = PencilTool(tool_parent)
+        self._type2tool[PlotToolType.LINE] = LineTool(tool_parent)
         self._type2tool[PlotToolType.RECTANGLE] = RectangleTool(tool_parent)
         pass
 
