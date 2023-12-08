@@ -69,7 +69,16 @@ class MainScreen(MDScreen):
         self.painter.set_tool_type(PlotToolType.PENCIL)
         pass
 
-    def sl(self):
+    def on_clear_canvas(self):
+        self.painter.canvas.clear();
+        self.painter.canvas.after.clear()
+        pass
+
+    def on_select_line(self):
+        """
+        选择直线工具
+        :return:
+        """
         pass
 
     def on_select_rect(self):
