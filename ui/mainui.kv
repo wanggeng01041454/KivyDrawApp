@@ -105,32 +105,53 @@
 
             ColorWidthRepresentButton:
                 id: color_button
+                size_hint: (1, 1)
                 display_type: "line"
                 on_press: root.open_color_width_dialog()
 
-            MDIconButton:
+            MDIconHoverButton:
+                id: pencil_hover_btn
+                size_hint: (1, 1)
                 icon: 'res/imgs/pencil.png'
                 icon_size: 64
-                on_press: root.on_select_pencil()
+                on_enter: root.on_mouse_enter_button(*args)
+                on_leave: root.on_mouse_leave_button(*args)
+                on_press: root.on_select_pencil(*args)
 
-            MDIconButton:
+            MDIconHoverButton:
+                id: line_hover_btn
+                size_hint: (1, 1)
                 icon: 'res/imgs/line.png'
                 icon_size: 64
-                on_release: root.on_select_line()
+                on_enter: root.on_mouse_enter_button(*args)
+                on_leave: root.on_mouse_leave_button(*args)
+                on_press: root.on_select_line(*args)
                 
-            MDIconButton:
+            MDIconHoverButton:
+                id: rect_hover_btn
+                size_hint: (1, 1)
                 icon: 'res/imgs/rectangle.png'
                 icon_size: 64
-                on_release: root.on_select_rect()
+                on_enter: root.on_mouse_enter_button(*args)
+                on_leave: root.on_mouse_leave_button(*args)
+                on_press: root.on_select_rect(*args)
 
-            MDIconButton:
+            MDIconHoverButton:
+                id: eraser_hover_btn
+                size_hint: (1, 1)
                 icon: 'res/imgs/eraser.png'
                 icon_size: 64
-                on_press: root.eraser()
+                on_enter: root.on_mouse_enter_button(*args)
+                on_leave: root.on_mouse_leave_button(*args)
+                on_press: root.on_select_eraser(*args)
 
-            MDIconButton:
+            MDIconHoverButton:
+                id: clear_hover_btn
+                size_hint: (1, 1)
                 icon: 'res/imgs/trash-can.png'
                 icon_size: 64
-                on_release:root.on_clear_canvas()
+                on_enter: root.on_mouse_enter_button(*args)
+                on_leave: root.on_mouse_leave_button(*args)
+                on_press:root.on_clear_canvas(*args)
 
 
