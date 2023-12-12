@@ -9,7 +9,7 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.screenmanager import ScreenManager
 
-from mainscreen import MainScreen
+from ui.mainscreen.mainscreen import MainScreen
 
 
 class MainApplication(MDApp):
@@ -25,7 +25,7 @@ class MainApplication(MDApp):
         This method is automatically called when the app is initialized
         :return:
         """
-        Builder.load_file("ui/mainui.kv")
+        Builder.load_file("kvs/mainui.kv")
 
         self.screen_manager = ScreenManager()
         self.main_screen = MainScreen()

@@ -3,7 +3,7 @@ from kivy.graphics import Color, Line
 from kivy.input import MotionEvent
 from kivy.uix.widget import Widget
 
-from plotutil.abstractplottool import AbstractPlotTool
+from ui.mainscreen.plotutil.abstractplottool import AbstractPlotTool
 
 
 class PencilTool(AbstractPlotTool):

@@ -1,18 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from kivy.uix.widget import Widget
-from kivy.graphics import Line, Color
-from kivy.properties import ListProperty, ObjectProperty
+from kivy.properties import ObjectProperty
 
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.screen import MDScreen
 
 from plotutil.plottooltype import PlotToolType
-from qwtpainterwidget import QwtPainterWidget  # 解析 kv 文件时需要
 
-from colorwidthrepresentbutton import ColorWidthRepresentButton
-from colorwidthdialog import ColorWidthDialog
-from mdiconhoverbutton import MDIconHoverButton
+from ui.common.colorwidthdialog import ColorWidthDialog
+from ui.common.mdiconhoverbutton import MDIconHoverButton
 
 
 class MainScreen(MDScreen):

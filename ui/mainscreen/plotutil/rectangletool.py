@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 
-from kivy.graphics import Color, Line, Rectangle
+from kivy.graphics import Color, Line
 from kivy.input import MotionEvent
 from kivy.uix.widget import Widget
 
-from plotutil.abstractplottool import AbstractPlotTool
+from ui.mainscreen.plotutil.abstractplottool import AbstractPlotTool
 
 
 class RectangleTool(AbstractPlotTool):
