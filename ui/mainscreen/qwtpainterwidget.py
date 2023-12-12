@@ -3,9 +3,7 @@ from kivy.graphics import Color
 from kivy.input import MotionEvent
 from kivy.uix.widget import Widget
 
-from plotutil.abstractplottool import AbstractPlotTool
-from plotutil.plottoolmanager import PlotToolManager
-from plotutil.plottooltype import PlotToolType
+from .plotutil import *
 
 
 class QwtPainterWidget(Widget):
@@ -57,4 +55,3 @@ class QwtPainterWidget(Widget):
         """
         self._cur_plot_tool = self._tool_manager.set_tool_type(tool_type)
         pass
-

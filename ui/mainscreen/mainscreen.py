@@ -4,10 +4,13 @@ from kivy.properties import ObjectProperty
 
 from kivymd.uix.screen import MDScreen
 
-from plotutil.plottooltype import PlotToolType
+from .plotutil import PlotToolType
 
-from ui.common.colorwidthdialog import ColorWidthDialog
-from ui.common.mdiconhoverbutton import MDIconHoverButton
+from ui.common import ColorWidthDialog
+from ui.common import MDIconHoverButton
+
+# 引用这个类，是为了在 kv 文件中使用这个类
+from .qwtpainterwidget import QwtPainterWidget
 
 
 class MainScreen(MDScreen):

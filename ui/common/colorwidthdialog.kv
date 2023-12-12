@@ -1,0 +1,80 @@
+#:kivy 2.1.1
+
+# 颜色和线条宽度选择对话框的主体
+<ColorWidthDialogContent>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: "200dp"
+    result_btn: result_btn
+    # 第一行，左侧显示结果，右侧显示一个宽度选择器
+    BoxLayout:
+        orientation: "horizontal"
+        # 显示结果的按钮
+        ColorWidthRepresentButton:
+            id: result_btn
+            size_hint_x: 0.5
+            display_type: "line"
+            # 需要和 MDSlider 的初始值保持一致
+            represent_width: 3
+        MDSlider:
+            id: width_slider
+            hint: False
+            step : 1
+            value: 3
+            min: 3
+            max: 30
+            on_value : root.on_width_change(*args)
+    # 第二行，显示4个颜色选择器
+    BoxLayout:
+        orientation: "horizontal"
+        # 赤色
+        ColorWidthRepresentButton:
+            represent_color: [1, 0, 0, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 橙色
+        ColorWidthRepresentButton:
+            represent_color: [1, 0.647, 0, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 黄色
+        ColorWidthRepresentButton:
+            represent_color: [1, 1, 0, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 绿色
+        ColorWidthRepresentButton:
+            represent_color: [0, 1, 0, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+    # 第三行，显示3个颜色选择器 + 1个颜色选择按钮
+    BoxLayout:
+        orientation: "horizontal"
+        # 青色
+        ColorWidthRepresentButton:
+            represent_color: [0, 0.5, 1, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 蓝色
+        ColorWidthRepresentButton:
+            represent_color: [0, 0, 1, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 紫色
+        ColorWidthRepresentButton:
+            represent_color: [0.545, 0, 1, 1]
+            display_type: "circle"
+            represent_width: 35
+            on_press: root.on_color_change(*args)
+        # 颜色选择按钮
+        MDIconButton:
+            size_hint: 1, 1
+            icon: 'res/imgs/color-picker.png'
+            icon_size: 50
+            on_press: root.open_color_picker()

@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import os
+
+from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.button import MDFlatButton
@@ -7,7 +10,16 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.pickers import MDColorPicker
 from kivymd.uix.slider import MDSlider
 
-from colorwidthrepresentbutton import ColorWidthRepresentButton
+from .colorwidthrepresentbutton import ColorWidthRepresentButton
+
+from ui import ui_common_path
+
+
+# 在导入本文件时，打开build对应的kv文件
+with open(
+    os.path.join(ui_common_path, "colorwidthdialog.kv"), encoding="utf-8"
+) as kv_file:
+    Builder.load_string(kv_file.read())
 
 
 class ColorWidthDialogContent(BoxLayout):
