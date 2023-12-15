@@ -17,22 +17,27 @@ class QwtPainterWidget(Widget):
     _tool_manager: PlotToolManager
 
     # 当前绘图工具
-    _cur_plot_tool: AbstractPlotTool
+    _cur_plot_tool: AbstractPlotTool = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._tool_manager = PlotToolManager(self)
-        # 设置默认类型
-        self._cur_plot_tool = self._tool_manager.set_tool_type(PlotToolType.PENCIL)
+        pass
 
     # todo 在 ubuntu 系统下，发现在程序失去焦点时，仍旧可以获得 触摸板的事件，导致绘图
     def on_touch_down(self, touch: MotionEvent) -> bool:
+        if self._cur_plot_tool is None:
+            return False
         return self._cur_plot_tool.on_touch_down(touch)
 
     def on_touch_move(self, touch) -> bool:
+        if self._cur_plot_tool is None:
+            return False
         return self._cur_plot_tool.on_touch_move(touch)
 
     def on_touch_up(self, touch) -> bool:
+        if self._cur_plot_tool is None:
+            return False
         return self._cur_plot_tool.on_touch_up(touch)
 
     def set_line_width(self, width: float):

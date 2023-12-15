@@ -17,7 +17,7 @@ class PlotToolManager:
     _line_width: float = 1.0
 
     # 当前绘图工具类型
-    _current_tool_type: PlotToolType
+    _current_tool_type: PlotToolType = None
 
     # 当前绘图颜色
     _current_color: tuple = (1, 1, 1, 1)
@@ -37,7 +37,8 @@ class PlotToolManager:
         设置线宽
         """
         self._line_width = width
-        self._type2tool[self._current_tool_type].set_line_width(width)
+        if self._current_tool_type is not None:
+            self._type2tool[self._current_tool_type].set_line_width(width)
         pass
 
     def set_line_color(self, color: tuple):
@@ -45,7 +46,8 @@ class PlotToolManager:
         设置线颜色
         """
         self._current_color = color
-        self._type2tool[self._current_tool_type].set_line_color(color)
+        if self._current_tool_type is not None:
+            self._type2tool[self._current_tool_type].set_line_color(color)
         pass
 
     def set_tool_type(self, tool_type: PlotToolType) -> AbstractPlotTool:

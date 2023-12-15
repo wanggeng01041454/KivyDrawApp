@@ -25,8 +25,6 @@ class MainScreen(MDScreen):
     """颜色和线条宽度选择对话框"""
     color_width_dialog: ColorWidthDialog = None
 
-    """可以响应鼠标 hover 事件的按钮"""
-    hover_buttons: list = []
     """当前被选中的 hover 按钮"""
     cur_selected_hover_button: MDIconHoverButton = None
 
@@ -34,12 +32,15 @@ class MainScreen(MDScreen):
     prompt_dialog: PromptDialog = None
 
     def __init__(self, **kwargs):
+        """
+        构造函数
+        todo 在构造函数中调用 set_cur_selected_hover_button 设置初始选中的按钮，会导致一些异常：
+        todo 包括: 在 is 比较时失效， 按钮的图标大小无法恢复等
+        """
         super().__init__(**kwargs)
         # 设置默认状态, 使用pencil工具
         default_width = 3.0
         default_color = [0, 0, 0, 1]
-        self.painter.set_tool_type(PlotToolType.PENCIL)
-        self.set_cur_selected_hover_button(self.ids.pencil_hover_btn)
         self.painter.set_line_width(default_width)
         self.painter.set_line_color(default_color)
         self.color_button.represent_color = default_color
@@ -51,13 +52,6 @@ class MainScreen(MDScreen):
 
         # 创建提示词对话框
         self.prompt_dialog = PromptDialog()
-
-        # 记录所有可以响应鼠标 hover 事件的按钮
-        self.hover_buttons.append(self.ids.pencil_hover_btn)
-        self.hover_buttons.append(self.ids.line_hover_btn)
-        self.hover_buttons.append(self.ids.rect_hover_btn)
-        self.hover_buttons.append(self.ids.eraser_hover_btn)
-        self.hover_buttons.append(self.ids.clear_hover_btn)
         pass
 
     def on_show_prompt_dialog(self, *args):
