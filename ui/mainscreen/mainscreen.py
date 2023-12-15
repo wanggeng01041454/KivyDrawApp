@@ -9,6 +9,7 @@ from .plotutil import PlotToolType
 from ui.common import ColorWidthDialog
 from ui.common import MDIconHoverButton
 
+from .promptdialog import PromptDialog
 # 引用这个类，是为了在 kv 文件中使用这个类
 from .qwtpainterwidget import QwtPainterWidget
 
@@ -29,12 +30,16 @@ class MainScreen(MDScreen):
     """当前被选中的 hover 按钮"""
     cur_selected_hover_button: MDIconHoverButton = None
 
+    """提示词对话框"""
+    prompt_dialog: PromptDialog = None
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # 设置默认状态
+        # 设置默认状态, 使用pencil工具
         default_width = 3.0
         default_color = [0, 0, 0, 1]
         self.painter.set_tool_type(PlotToolType.PENCIL)
+        self.set_cur_selected_hover_button(self.ids.pencil_hover_btn)
         self.painter.set_line_width(default_width)
         self.painter.set_line_color(default_color)
         self.color_button.represent_color = default_color
@@ -44,12 +49,24 @@ class MainScreen(MDScreen):
         # 绑定颜色和宽度选择对话框的 ok 按钮事件
         self.color_width_dialog.bind(on_ok_btn_release=self.on_color_width_dialog_ok_btn_release)
 
+        # 创建提示词对话框
+        self.prompt_dialog = PromptDialog()
+
         # 记录所有可以响应鼠标 hover 事件的按钮
         self.hover_buttons.append(self.ids.pencil_hover_btn)
         self.hover_buttons.append(self.ids.line_hover_btn)
         self.hover_buttons.append(self.ids.rect_hover_btn)
         self.hover_buttons.append(self.ids.eraser_hover_btn)
         self.hover_buttons.append(self.ids.clear_hover_btn)
+        pass
+
+    def on_show_prompt_dialog(self, *args):
+        """
+        显示提示词对话框
+        :param args:
+        :return:
+        """
+        self.prompt_dialog.open()
         pass
 
     def open_color_width_dialog(self):
