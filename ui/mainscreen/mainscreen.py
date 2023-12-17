@@ -63,6 +63,16 @@ class MainScreen(MDScreen):
         self.prompt_dialog.open()
         pass
 
+    def on_ai_process(self, *args):
+        """
+        AI处理
+        :param args:
+        :return:
+        """
+        # todo AI处理
+        self.painter.get_paint_image()
+        pass
+
     def open_color_width_dialog(self):
         self.color_width_dialog.open()
         pass

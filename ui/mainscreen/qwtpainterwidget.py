@@ -2,8 +2,11 @@
 from kivy.graphics import Color
 from kivy.input import MotionEvent
 from kivy.uix.widget import Widget
+from kivy.core.image import Image as CoreImage
 
 from .plotutil import *
+from PIL.Image import Image as PilImage
+import PIL
 
 
 class QwtPainterWidget(Widget):
@@ -60,3 +63,12 @@ class QwtPainterWidget(Widget):
         """
         self._cur_plot_tool = self._tool_manager.set_tool_type(tool_type)
         pass
+
+    def get_paint_image(self) -> PilImage:
+        """
+        获取绘图结果, 并将其转换为 PIL.Image.Image 类型
+        """
+        # 1. 导出为 kivy core image
+        core_image: CoreImage = self.export_as_image()
+        print(PIL.Image.EXTENSION)
+        return None
