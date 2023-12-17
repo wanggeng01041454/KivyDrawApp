@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from kivymd.uix.button import MDFlatButton
+
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.textfield import MDTextField
 
@@ -17,15 +17,11 @@ class PromptDialog(MDDialog):
         :param kwargs:
         """
 
-        ok_btn = MDFlatButton(
-            text="OK",
-            theme_text_color="Custom"
-        )
         self._create_text_field()
         super().__init__(
             type="custom",
+            title="please input prompt word",
             content_cls=self.text_field,
-            buttons=[ok_btn],
             **kwargs)
         pass
 
@@ -34,11 +30,16 @@ class PromptDialog(MDDialog):
         创建输入框
         """
         self.text_field = MDTextField(
-                hint_text="input prompt word",
-                helper_text="input prompt word",
-                helper_text_mode="on_focus",
-                required=True
-            )
+            multiline=False,
+            mode="rectangle",
+            required=True,
+        )
         pass
 
+    def get_prompt_word(self) -> str:
+        """
+        获取输入的提示词
+        :return:
+        """
+        return self.text_field.text
     pass
