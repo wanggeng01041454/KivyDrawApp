@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from io import BytesIO
+
 from kivy.graphics import Color
 from kivy.input import MotionEvent
 from kivy.uix.widget import Widget
@@ -64,11 +66,15 @@ class QwtPainterWidget(Widget):
         self._cur_plot_tool = self._tool_manager.set_tool_type(tool_type)
         pass
 
-    def get_paint_image(self) -> PilImage:
+    def get_paint_image(self, fmt="png") -> bytes:
         """
-        获取绘图结果, 并将其转换为 PIL.Image.Image 类型
+        获取绘图结果, 返回图片的字节数据,
+        默认将图片转换为 png 格式
         """
         # 1. 导出为 kivy core image
         core_image: CoreImage = self.export_as_image()
-        print(PIL.Image.EXTENSION)
-        return None
+        # 2. 将 kivy core image 转换为 png 格式的 bytes
+        data = BytesIO()
+        core_image.save(data, fmt=fmt)
+        # 3. 返回 bytes
+        return data.getvalue()

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+import base64
 
 from kivy.properties import ObjectProperty
+from kivymd.uix.button import MDFlatButton
+from kivymd.uix.dialog import MDDialog
 
 from kivymd.uix.screen import MDScreen
 
@@ -30,6 +33,7 @@ class MainScreen(MDScreen):
 
     """提示词对话框"""
     prompt_dialog: PromptDialog = None
+    empty_prompt_hint_dialog: MDDialog = None
 
     def __init__(self, **kwargs):
         """
@@ -52,6 +56,15 @@ class MainScreen(MDScreen):
 
         # 创建提示词对话框
         self.prompt_dialog = PromptDialog()
+        # 创建提示词为空的提示对话框
+        self.empty_prompt_hint_dialog = MDDialog(
+            text="提示词不能为空",
+            buttons=[
+                MDFlatButton(
+                    text="OK",
+                )
+            ]
+        )
         pass
 
     def on_show_prompt_dialog(self, *args):
@@ -69,8 +82,17 @@ class MainScreen(MDScreen):
         :param args:
         :return:
         """
+        # 取出 prompt_dialog 中的提示词, 提示词不能为空
+        prompt_word: str = self.prompt_dialog.get_prompt_word()
+        if prompt_word is None or prompt_word == "":
+            self.empty_prompt_hint_dialog.open()
+            return
         # todo AI处理
-        self.painter.get_paint_image()
+        # 1. 获取当前绘图板的字节数据
+        png_img: bytes = self.painter.get_paint_image()
+        # 2. 将图片字节数据转换为 base64 编码
+        base64_img: str = base64.b64encode(png_img).decode()
+
         pass
 
     def open_color_width_dialog(self):

@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
+from kivy.clock import Clock
 from kivymd.uix.behaviors import HoverBehavior
 from kivymd.uix.button import MDIconButton
 
-# 默认的按钮图标大小
-DEFAULT_BUTTON_ICON_SIZE = 64
-# 被选中的按钮图标大小
-SELECTED_BUTTON_ICON_SIZE = 96
-# hover 时的按钮图标大小
-HOVER_BUTTON_ICON_SIZE = 128
+# 默认的背景色
+DEFAULT_BUTTON_BACKGROUND_COLOR = [1, 1, 1, 0]
+# 被选中的按钮背景色
+SELECTED_BUTTON_BACKGROUND_COLOR = [0, 0.1, 0.78, 0.7]
+# hover 时的按钮背景色
+HOVER_BUTTON_BACKGROUND_COLOR = [0, 0.1, 0.78, 0.2]
 
 
 class MDIconHoverButton(MDIconButton, HoverBehavior):
@@ -17,7 +18,7 @@ class MDIconHoverButton(MDIconButton, HoverBehavior):
         :param kwargs:
         """
         super().__init__(**kwargs)
-        self.set_normal_state()
+        Clock.schedule_once(lambda dt: self.set_normal_state(), 0)
         pass
 
     """
@@ -28,11 +29,7 @@ class MDIconHoverButton(MDIconButton, HoverBehavior):
         设置鼠标滑过时的状态
         :return:
         """
-        self.icon_size = HOVER_BUTTON_ICON_SIZE
-        self.size_hint_x = 1
-        self.size_hint_y = 2
-        self.pos_hint = {"center_x": 0.5, "center_y": 1}
-        self.md_bg_color = [1, 1, 1, 0]
+        self.md_bg_color = HOVER_BUTTON_BACKGROUND_COLOR
         pass
 
     def set_normal_state(self):
@@ -40,11 +37,7 @@ class MDIconHoverButton(MDIconButton, HoverBehavior):
         设置正常状态
         :return:
         """
-        self.icon_size = DEFAULT_BUTTON_ICON_SIZE
-        self.size_hint_x = 1
-        self.size_hint_y = 1
-        self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
-        self.md_bg_color = [1, 1, 1, 0]
+        self.md_bg_color = DEFAULT_BUTTON_BACKGROUND_COLOR
         pass
 
     def set_selected_state(self):
@@ -52,10 +45,6 @@ class MDIconHoverButton(MDIconButton, HoverBehavior):
         设置被选中状态
         :return:
         """
-        self.icon_size = SELECTED_BUTTON_ICON_SIZE
-        self.size_hint_x = 1
-        self.size_hint_y = 1
-        self.pos_hint = {"center_x": 0.5, "center_y": 1}
-        self.md_bg_color = [0, 0.4, 0, 0.2]
+        self.md_bg_color = SELECTED_BUTTON_BACKGROUND_COLOR
 
     pass
