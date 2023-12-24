@@ -16,6 +16,8 @@ from .promptdialog import PromptDialog
 # 引用这个类，是为了在 kv 文件中使用这个类
 from .qwtpainterwidget import QwtPainterWidget
 
+from conn import ConnManager
+
 
 class MainScreen(MDScreen):
     """
@@ -34,6 +36,9 @@ class MainScreen(MDScreen):
     """提示词对话框"""
     prompt_dialog: PromptDialog = None
     empty_prompt_hint_dialog: MDDialog = None
+
+    """连接管理器"""
+    conn_manager: ConnManager = None
 
     def __init__(self, **kwargs):
         """
@@ -57,14 +62,15 @@ class MainScreen(MDScreen):
         # 创建提示词对话框
         self.prompt_dialog = PromptDialog()
         # 创建提示词为空的提示对话框
+        hint_dlg_ok_btn = MDFlatButton(text="OK")
         self.empty_prompt_hint_dialog = MDDialog(
-            text="提示词不能为空",
+            title="Hint",
+            text="Prompt Can not be Empty",
             buttons=[
-                MDFlatButton(
-                    text="OK",
-                )
+                hint_dlg_ok_btn
             ]
         )
+        hint_dlg_ok_btn.bind(on_release=self.empty_prompt_hint_dialog.dismiss)
         pass
 
     def on_show_prompt_dialog(self, *args):
