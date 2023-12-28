@@ -71,6 +71,10 @@ class MainScreen(MDScreen):
             ]
         )
         hint_dlg_ok_btn.bind(on_release=self.empty_prompt_hint_dialog.dismiss)
+
+        # 创建连接管理器
+        self.conn_manager = ConnManager()
+        # todo 连接到服务器，应该要异步完成
         pass
 
     def on_show_prompt_dialog(self, *args):
@@ -98,7 +102,10 @@ class MainScreen(MDScreen):
         png_img: bytes = self.painter.get_paint_image()
         # 2. 将图片字节数据转换为 base64 编码
         base64_img: str = base64.b64encode(png_img).decode()
-
+        # 3. 发送给服务器
+        # todo, 应该是异步进行，且界面进入等待状态， 现在只是测试
+        self.conn_manager.send_manual_picture(prompt_word, base64_img)
+        # print("save to file ok")
         pass
 
     def open_color_width_dialog(self):

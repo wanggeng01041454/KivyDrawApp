@@ -35,6 +35,9 @@ class ConnManager:
         """
         req = UploadManualPicture.build_req(self.session_id, prompt, base64_img)
         # 测试代码，将其保存在文件中
+        # test_file = "E:\\Temp\\req.json"
+        # with open(test_file, "w") as f:
+        #     f.write(req)
         pass
 
     def is_connected(self) -> bool:
