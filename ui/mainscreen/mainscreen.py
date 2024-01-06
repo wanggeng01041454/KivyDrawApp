@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import asyncio
 import base64
 
 from kivy.properties import ObjectProperty
@@ -17,6 +18,7 @@ from .promptdialog import PromptDialog
 from .qwtpainterwidget import QwtPainterWidget
 
 from conn import ConnManager
+import appconfig
 
 
 class MainScreen(MDScreen):
@@ -106,7 +108,15 @@ class MainScreen(MDScreen):
         # todo, 应该是异步进行，且界面进入等待状态， 现在只是测试
         self.conn_manager.send_manual_picture(prompt_word, base64_img)
         # print("save to file ok")
+        # todo 这里要保存返回的task对象，防止被垃圾回收，因为 TaskGroup 中存放的是弱引用
+        appconfig.GlobalTaskGroup.create_task(self.on_ai_process_async_test())
         pass
+
+    async def on_ai_process_async_test(self, *args):
+        print("test in on_ai_process_async_test, begin")
+        await asyncio.sleep(1)
+        print("test in on_ai_process_async_test, end")
+
 
     def open_color_width_dialog(self):
         self.color_width_dialog.open()

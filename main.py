@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import asyncio
+
 # 导入配置文件，并在导入任何 kivy 模块之前调用
 import appconfig
 appconfig.config_app()
@@ -32,9 +34,18 @@ class MainApplication(MDApp):
         self.screen_manager.add_widget(self.main_screen)
         return self.screen_manager
 
+    async def run_with_asyncio_tg(self, task_group: asyncio.TaskGroup):
+        """
+        Run the application with asyncio
+        使用一个TaskGroup来管理所有的任务，在运行中，允许增加新的临时协程任务
+        """
+        async with task_group:
+            await self.async_run(async_lib='asyncio')
+
 
 if __name__ == '__main__':
-    MainApplication().run()
+    asyncio.run(MainApplication().run_with_asyncio_tg(appconfig.GlobalTaskGroup))
+
 
 # 能够输出 PIL.Image.Image 类型的图片，并经网络，无损压缩编码后传输到服务端；同时从服务端接收
 # todo
