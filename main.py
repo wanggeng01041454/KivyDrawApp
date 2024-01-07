@@ -42,20 +42,21 @@ class MainApplication(MDApp):
         """
         await self.async_run(async_lib='asyncio')
         # 显示协程结束后，直接结束所有在执行协程
-        task_group.abort()
+        task_group.cancel_all()
 
-    async def run_with_asyncio_tg(self, task_group: GlobalTaskGroup):
-        """
-        Run the application with asyncio
-        使用一个TaskGroup来管理所有的任务，在运行中，允许增加新的临时协程任务
-        """
-        async with task_group:
-            task_group.create_task(self.async_run_wrapper(task_group))
+    # async def run_with_asyncio_tg(self, task_group: GlobalTaskGroup):
+    #     """
+    #     Run the application with asyncio
+    #     使用一个TaskGroup来管理所有的任务，在运行中，允许增加新的临时协程任务
+    #     这个函数是为了配合 python 3.11 中的 TaskGroup 类而设计的； 自己简单实现的 GlobalTaskGroup 不需要这个函数
+    #     """
+    #     async with task_group:
+    #         task_group.create_task(self.async_run_wrapper(task_group))
 
 
 if __name__ == '__main__':
     tg = GlobalTaskGroup()
-    asyncio.run(MainApplication().run_with_asyncio_tg(tg))
+    asyncio.run(MainApplication().async_run_wrapper(tg))
 
 
 # 能够输出 PIL.Image.Image 类型的图片，并经网络，无损压缩编码后传输到服务端；同时从服务端接收
