@@ -3,5 +3,6 @@
 
 关键组件版本：
 
+* Cython版本要和系统带的cython版本一致(ubuntu23.10安装的是 0.29.36)
 * python 3.11.7
 * kivy 2.3.0

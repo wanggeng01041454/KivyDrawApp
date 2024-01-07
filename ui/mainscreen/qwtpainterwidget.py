@@ -8,7 +8,6 @@ from kivy.core.image import Image as CoreImage
 
 from .plotutil import *
 from PIL.Image import Image as PilImage
-import PIL
 
 
 class QwtPainterWidget(Widget):

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-import asyncio
 import base64
 
+from kivy.clock import Clock
 from kivy.properties import ObjectProperty
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 
 from kivymd.uix.screen import MDScreen
+from PIL.Image import Image as PilImage
 
 from .plotutil import PlotToolType
 
@@ -18,7 +19,6 @@ from .promptdialog import PromptDialog
 from .qwtpainterwidget import QwtPainterWidget
 
 from conn import ConnManager
-import appconfig
 
 
 class MainScreen(MDScreen):
@@ -41,6 +41,8 @@ class MainScreen(MDScreen):
 
     """连接管理器"""
     conn_manager: ConnManager = None
+    """是否正在进行AI处理"""
+    is_in_ai_processing: bool = False
 
     def __init__(self, **kwargs):
         """
@@ -76,7 +78,9 @@ class MainScreen(MDScreen):
 
         # 创建连接管理器
         self.conn_manager = ConnManager()
-        # todo 连接到服务器，应该要异步完成
+        # 注册事件
+        self.register_event_type("on_send_picture_request_event")
+        self.register_event_type("on_recv_picture_response_event")
         pass
 
     def on_show_prompt_dialog(self, *args):
@@ -94,6 +98,8 @@ class MainScreen(MDScreen):
         :param args:
         :return:
         """
+        if self.is_in_ai_processing:
+            return
         # 取出 prompt_dialog 中的提示词, 提示词不能为空
         prompt_word: str = self.prompt_dialog.get_prompt_word()
         if prompt_word is None or prompt_word == "":
@@ -104,19 +110,34 @@ class MainScreen(MDScreen):
         png_img: bytes = self.painter.get_paint_image()
         # 2. 将图片字节数据转换为 base64 编码
         base64_img: str = base64.b64encode(png_img).decode()
-        # 3. 发送给服务器
-        # todo, 应该是异步进行，且界面进入等待状态， 现在只是测试
-        self.conn_manager.send_manual_picture(prompt_word, base64_img)
-        # print("save to file ok")
-        # todo 这里要保存返回的task对象，防止被垃圾回收，因为 TaskGroup 中存放的是弱引用
-        appconfig.GlobalTaskGroup.create_task(self.on_ai_process_async_test())
+        # 3. 发送给服务器, 后台在异步处理，待处理完成后, 相应的回调函数会被调用
+        self.conn_manager.process_manual_picture(prompt_word, base64_img, self.recv_ai_process_result_cb)
+        # 4. 发射事件，通知界面显示等待对话框
+        self.dispatch("on_send_picture_request_event")
+        # 5. 设置正在进行AI处理的标志
+        self.is_in_ai_processing = True
         pass
 
-    async def on_ai_process_async_test(self, *args):
-        print("test in on_ai_process_async_test, begin")
-        await asyncio.sleep(1)
-        print("test in on_ai_process_async_test, end")
+    def recv_ai_process_result_cb(self, ai_img: str):
+        """
+        收到 AI 处理结果的回调函数
+        """
+        print("on_ai_process_result:{}".format(ai_img))
 
+        # todo 将 ai_img解码 PIL.Image
+        img: PilImage = None
+        self.dispatch("on_recv_picture_response_event", img)
+        # 清理正在进行AI处理的标志
+        self.is_in_ai_processing = False
+        pass
+
+    def on_send_picture_request_event(self):
+        """发送图片请求事件"""
+        pass
+
+    def on_recv_picture_response_event(self, img: PilImage):
+        """收到图片响应事件"""
+        pass
 
     def open_color_width_dialog(self):
         self.color_width_dialog.open()
