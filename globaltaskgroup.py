@@ -36,11 +36,12 @@ class GlobalTaskGroup(metaclass=SingletonMeta):
 
     _tasks = set()
 
-    def create_task(self, coro, *, name=None):
+    def create_task(self, coro, *, name=None) -> asyncio.Task:
         """简单封装 asyncio.create_task 方法"""
         t = asyncio.create_task(coro, name=name)
         self._tasks.add(t)
         t.add_done_callback(self._on_task_done)
+        return t
 
     def _on_task_done(self, task):
         self._tasks.discard(task)
@@ -50,6 +51,7 @@ class GlobalTaskGroup(metaclass=SingletonMeta):
         for t in self._tasks:
             if not t.done():
                 t.cancel()
+
         pass
-    pass
+
 
