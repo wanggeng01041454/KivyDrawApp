@@ -26,15 +26,15 @@
             adaptive_width: True
             spacing: 10
 
-            MDIconButton:
+            MyMDFloatingActionButton:
                 size_hint: (1, 1)
-                icon: 'res/imgs/prompt.png'
+                icon: 'forum-outline'
                 icon_size: 64
                 on_press: root.on_show_prompt_dialog(*args)
 
-            MDIconButton:
+            MyMDFloatingActionButton:
                 size_hint: (1, 1)
-                icon: 'res/imgs/ai.png'
+                icon: 'cloud-refresh-variant-outline'
                 icon_size: 64
                 on_press: root.on_ai_process(*args)
 
@@ -56,49 +56,34 @@
                 display_type: "line"
                 on_press: root.open_color_width_dialog()
 
-            MDIconHoverButton:
+            MyMDFloatingActionButton:
                 id: pencil_hover_btn
                 size_hint: (1, 1)
-                icon: 'res/imgs/pencil.png'
-                icon_size: 64
-                on_enter: root.on_mouse_enter_button(*args)
-                on_leave: root.on_mouse_leave_button(*args)
+                icon: 'pencil'
                 on_press: root.on_select_pencil(*args)
 
-            MDIconHoverButton:
+            MyMDFloatingActionButton:
                 id: line_hover_btn
                 size_hint: (1, 1)
-                icon: 'res/imgs/line.png'
-                icon_size: 64
-                on_enter: root.on_mouse_enter_button(*args)
-                on_leave: root.on_mouse_leave_button(*args)
+                icon: 'minus'
                 on_press: root.on_select_line(*args)
                 
-            MDIconHoverButton:
+            MyMDFloatingActionButton:
                 id: rect_hover_btn
                 size_hint: (1, 1)
-                icon: 'res/imgs/rectangle.png'
-                icon_size: 64
-                on_enter: root.on_mouse_enter_button(*args)
-                on_leave: root.on_mouse_leave_button(*args)
+                icon: 'rectangle-outline'
                 on_press: root.on_select_rect(*args)
 
-            MDIconHoverButton:
+            MyMDFloatingActionButton:
                 id: eraser_hover_btn
                 size_hint: (1, 1)
-                icon: 'res/imgs/eraser.png'
-                icon_size: 64
-                on_enter: root.on_mouse_enter_button(*args)
-                on_leave: root.on_mouse_leave_button(*args)
+                icon: 'eraser'
                 on_press: root.on_select_eraser(*args)
 
-            MDIconHoverButton:
+            MyMDFloatingActionButton:
                 id: clear_hover_btn
                 size_hint: (1, 1)
-                icon: 'res/imgs/trash-can.png'
-                icon_size: 64
-                on_enter: root.on_mouse_enter_button(*args)
-                on_leave: root.on_mouse_leave_button(*args)
+                icon: 'trash-can-outline'
                 on_press:root.on_clear_canvas(*args)
 
 

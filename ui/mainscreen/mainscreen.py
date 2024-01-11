@@ -3,7 +3,7 @@ import base64
 
 from kivy.clock import Clock
 from kivy.properties import ObjectProperty
-from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDFlatButton, MDFloatingActionButton
 from kivymd.uix.dialog import MDDialog
 
 from kivymd.uix.screen import MDScreen
@@ -12,7 +12,7 @@ from PIL.Image import Image as PilImage
 from .plotutil import PlotToolType
 
 from ui.common import ColorWidthDialog
-from ui.common import MDIconHoverButton
+from ui.common import MyMDFloatingActionButton
 
 from .promptdialog import PromptDialog
 # 引用这个类，是为了在 kv 文件中使用这个类
@@ -33,7 +33,7 @@ class MainScreen(MDScreen):
     color_width_dialog: ColorWidthDialog = None
 
     """当前被选中的 hover 按钮"""
-    cur_selected_hover_button: MDIconHoverButton = None
+    cur_selected_hover_button: MyMDFloatingActionButton = None
 
     """提示词对话框"""
     prompt_dialog: PromptDialog = None
@@ -196,7 +196,7 @@ class MainScreen(MDScreen):
         self.painter.canvas.after.clear()
         pass
 
-    def set_cur_selected_hover_button(self, button: MDIconHoverButton):
+    def set_cur_selected_hover_button(self, button: MyMDFloatingActionButton):
         """
         设置当前被选中的 hover 按钮，
         需要清除之前按钮的选中状态，并设置新按钮的选中状态
@@ -212,24 +212,3 @@ class MainScreen(MDScreen):
             self.cur_selected_hover_button.set_selected_state()
         pass
 
-    def on_mouse_enter_button(self, *args):
-        """
-        鼠标进入按钮时调用，如果鼠标不是选中按钮，则设置按钮的 hover 状态
-        :param args:
-        :return:
-        """
-        button: MDIconHoverButton = args[0]
-        if button is not self.cur_selected_hover_button:
-            button.set_hover_state()
-        pass
-
-    def on_mouse_leave_button(self, *args):
-        """
-        鼠标离开按钮时调用，如果鼠标不是选中按钮，则设置按钮的 normal 状态
-        :param args:
-        :return:
-        """
-        button: MDIconHoverButton = args[0]
-        if button is not self.cur_selected_hover_button:
-            button.set_normal_state()
-        pass
