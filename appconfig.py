@@ -13,7 +13,7 @@ from kivy.config import Config
 from kivy.core.audio import SoundLoader
 
 """按钮声音"""
-ButtonDingSound = SoundLoader.load("res/sound/button-ding.wav")
+BtnDingSound = SoundLoader.load("res/sound/button-ding.wav")
 
 
 def config_app() -> None:

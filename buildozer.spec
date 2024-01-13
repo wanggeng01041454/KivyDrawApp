@@ -13,7 +13,8 @@ package.domain = org.test
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas
+# res目录下增加的wav文件想要能够播放出声音，需要在这里添加 wav
+source.include_exts = py,png,jpg,kv,atlas,wav
 
 # (list) List of inclusions using pattern matching
 # 所有的资源文件
@@ -99,7 +100,7 @@ fullscreen = 0
 
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
-#android.permissions = android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
+android.permissions = android.permission.INTERNET, android.permission.WRITE_EXTERNAL_STORAGE,
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
