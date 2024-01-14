@@ -2,7 +2,7 @@
 from kivy.clock import Clock
 from kivymd.uix.button import MDFloatingActionButton
 
-from appconfig import BtnDingSound
+from tools import ResourceManager
 
 black_color = [0, 0, 0, 1]
 white_color = [1, 1, 1, 1]
@@ -44,7 +44,7 @@ class MyMDFloatingActionButton(MDFloatingActionButton):
         self.md_bg_color = "002afc"  # Blue
 
     def on_press(self, *args):
-        BtnDingSound.play()
+        ResourceManager().play_btn_sound()
         return super().on_press(*args)
     # def on_touch_down(self, touch):
     #     """

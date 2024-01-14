@@ -10,11 +10,6 @@
 """
 from kivy.config import Config
 
-from kivy.core.audio import SoundLoader
-
-"""按钮声音"""
-BtnDingSound = SoundLoader.load("res/sound/button-ding.wav")
-
 
 def config_app() -> None:
     Config.set('graphics', 'multisamples', 8)

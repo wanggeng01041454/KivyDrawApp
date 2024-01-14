@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import asyncio
-from globaltaskgroup import GlobalTaskGroup
+from tools import GlobalTaskGroup
 
 # 导入配置文件，并在导入任何 kivy 模块之前调用
-import appconfig
-appconfig.config_app()
+from tools import config_app
+
+config_app()
 
 from kivy.lang import Builder
 

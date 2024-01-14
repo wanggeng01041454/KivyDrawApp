@@ -4,7 +4,7 @@ import asyncio
 from collections.abc import Callable
 from typing import Union
 
-from globaltaskgroup import GlobalTaskGroup
+from tools.globaltaskgroup import GlobalTaskGroup
 from .protocal import *
 
 """接收到AI生成图片的回调函数"""
