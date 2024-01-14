@@ -106,7 +106,7 @@ class ColorWidthDialog(MDDialog):
         :param kwargs:
         """
         ok_btn = MDFlatButton(
-            text="OK",
+            text="好的",
             theme_text_color="Custom"
         )
         # 将ok按钮的事件绑定到函数

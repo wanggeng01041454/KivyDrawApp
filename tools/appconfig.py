@@ -13,6 +13,7 @@ from kivy.config import Config
 
 def config_app() -> None:
     Config.set('graphics', 'multisamples', 8)
+    Config.set('kivy', 'default_font', ['msyh', 'res/font/msyh.ttf'])
     pass
 
 
