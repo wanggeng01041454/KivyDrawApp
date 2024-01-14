@@ -8,7 +8,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.pickers import MDColorPicker
-from kivymd.uix.slider import MDSlider
 
 from .colorwidthrepresentbutton import ColorWidthRepresentButton
 
@@ -67,8 +66,10 @@ class ColorWidthDialogContent(BoxLayout):
         打开颜色选择器
         :return:
         """
+        # 根据 MDColorPicker 的源码实现，这里将size_hint_y设置为1，可以使得颜色选择器的高度占满屏幕
+        # 尽量让高度大点，否则会触发一个错误。
         color_picker = MDColorPicker(
-            size_hint=(0.45, 0.85),
+            size_hint=(0.8, 1),
             type_color="HEX",
         )
         color_picker.bind(on_release=self.get_picker_selected_color)
