@@ -1,0 +1,11 @@
+# 通用类型的文本
+common:
+  ok_btn: 好的
+  cancel_btn: 取消
+  hint: 提示
+
+# MainScreen模块的文本
+mainscreen:
+  color_dlg_title: 选择颜色和线宽
+  prompt_dlg_title: 请输入传递给人工智能的提示词（必须使用英语）
+  prompt_empty_hint: 传递给人工智能的提示词不能为空

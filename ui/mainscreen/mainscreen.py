@@ -19,6 +19,7 @@ from .promptdialog import PromptDialog
 from .qwtpainterwidget import QwtPainterWidget
 
 from conn import ConnManager
+from tools import ResourceManager
 
 
 class MainScreen(MDScreen):
@@ -63,13 +64,19 @@ class MainScreen(MDScreen):
         # 绑定颜色和宽度选择对话框的 ok 按钮事件
         self.color_width_dialog.bind(on_ok_btn_release=self.on_color_width_dialog_ok_btn_release)
 
+        res_mgr = ResourceManager()
+
         # 创建提示词对话框
         self.prompt_dialog = PromptDialog()
         # 创建提示词为空的提示对话框
-        hint_dlg_ok_btn = MDFlatButton(text="OK")
+        hint_dlg_ok_btn = MDFlatButton(
+            text=res_mgr.get_lang_text('common', 'ok_btn'),
+            font_name=res_mgr.get_lang_font(),
+        )
+
         self.empty_prompt_hint_dialog = MDDialog(
-            title="Hint",
-            text="Prompt Can not be Empty",
+            title=res_mgr.get_lang_text('common', 'hint', embed_font=True),
+            text=res_mgr.get_lang_text('mainscreen', 'prompt_empty_hint', embed_font=True),
             buttons=[
                 hint_dlg_ok_btn
             ]

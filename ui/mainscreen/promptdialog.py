@@ -3,6 +3,7 @@
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.textfield import MDTextField
 
+from tools import ResourceManager
 
 class PromptDialog(MDDialog):
     """
@@ -16,11 +17,11 @@ class PromptDialog(MDDialog):
         构造函数
         :param kwargs:
         """
-
+        res_mgr = ResourceManager()
         self._create_text_field()
         super().__init__(
             type="custom",
-            title="please input prompt word",
+            title=res_mgr.get_lang_text('mainscreen', 'prompt_dlg_title', embed_font=True),
             content_cls=self.text_field,
             **kwargs)
         pass
@@ -33,6 +34,7 @@ class PromptDialog(MDDialog):
             multiline=False,
             mode="rectangle",
             required=True,
+            font_name=ResourceManager().get_lang_font(),
         )
         pass
 

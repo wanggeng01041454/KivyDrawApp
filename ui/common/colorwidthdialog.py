@@ -12,6 +12,7 @@ from kivymd.uix.pickers import MDColorPicker
 from .colorwidthrepresentbutton import ColorWidthRepresentButton
 
 from ui import ui_common_path
+from tools import ResourceManager
 
 
 # 在导入本文件时，打开build对应的kv文件
@@ -68,9 +69,12 @@ class ColorWidthDialogContent(BoxLayout):
         """
         # 根据 MDColorPicker 的源码实现，这里将size_hint_y设置为1，可以使得颜色选择器的高度占满屏幕
         # 尽量让高度大点，否则会触发一个错误。
+        res_mgr = ResourceManager()
         color_picker = MDColorPicker(
             size_hint=(0.8, 1),
             type_color="HEX",
+            text_button_ok=res_mgr.get_lang_text('common', 'ok_btn', embed_font=True),
+            text_button_cancel=res_mgr.get_lang_text('common', 'cancel_btn', embed_font=True),
         )
         color_picker.bind(on_release=self.get_picker_selected_color)
         color_picker.open()
@@ -105,15 +109,17 @@ class ColorWidthDialog(MDDialog):
         构造函数
         :param kwargs:
         """
+        res_mgr = ResourceManager()
         ok_btn = MDFlatButton(
-            text="好的",
+            text=res_mgr.get_lang_text('common', 'ok_btn'),
+            font_name=res_mgr.get_lang_font(),
             theme_text_color="Custom"
         )
         # 将ok按钮的事件绑定到函数
         ok_btn.bind(on_release=self._release_ok_btn)
         # type, content_cls, buttons 必须放在构造函数中； 因为父类构造函数初始化时，需要它们的信息
         super().__init__(
-            title="choose color and line width",
+            title=res_mgr.get_lang_text('mainscreen', 'color_dlg_title', embed_font=True),
             type="custom",
             content_cls=ColorWidthDialogContent(),
             buttons=[ok_btn],

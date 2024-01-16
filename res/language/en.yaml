@@ -1,0 +1,11 @@
+# 通用类型的文本
+common:
+  ok_btn: OK
+  cancel_btn: Cancel
+  hint: Hint
+
+# MainScreen模块的文本
+mainscreen:
+  color_dlg_title: Choose Color and Line Width
+  prompt_dlg_title: Please Input Prompt Text
+  prompt_empty_hint: Prompt Text Can't Be Empty

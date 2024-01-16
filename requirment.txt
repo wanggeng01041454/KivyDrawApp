@@ -3,6 +3,7 @@ Kivy==2.3.0
 Kivy-Garden
 buildozer
 Pillow
+PyYAML
 # kivymd 必须用master分支的最新版本
 # pip install https://github.com/kivymd/KivyMD/archive/master.zip
 

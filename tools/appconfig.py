@@ -9,11 +9,15 @@
 但放在这里全局加载时，就是统一的音效了
 """
 from kivy.config import Config
+from .resource import ResourceManager
 
 
 def config_app() -> None:
     Config.set('graphics', 'multisamples', 8)
-    Config.set('kivy', 'default_font', ['msyh', 'res/font/msyh.ttf'])
+
+    res_mgr = ResourceManager()
+    # 使用中文
+    res_mgr.set_language('zh')
     pass
 
 
