@@ -1,20 +1,20 @@
 [app]
 
 # (str) Title of your application
-title = My Application
+title = QwtAiPainter
 
 # (str) Package name
-package.name = myapp
+package.name = aipainter
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = com.qwt
 
 # (str) Source code where the main.py live
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
 # res目录下增加的wav文件想要能够播放出声音，需要在这里添加 wav
-source.include_exts = py,png,jpg,kv,atlas,wav
+source.include_exts = py,png,jpg,kv,atlas,wav,ttc,ttf,yaml
 
 # (list) List of inclusions using pattern matching
 # 所有的资源文件
