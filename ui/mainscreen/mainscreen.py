@@ -62,7 +62,7 @@ class MainScreen(MDScreen):
         # 创建颜色和宽度选择对话框
         self.color_width_dialog = ColorWidthDialog()
         # 绑定颜色和宽度选择对话框的 ok 按钮事件
-        self.color_width_dialog.bind(on_ok_btn_release=self.on_color_width_dialog_ok_btn_release)
+        self.color_width_dialog.bind(on_select=self.on_select_color_width)
 
         res_mgr = ResourceManager()
 
@@ -150,7 +150,7 @@ class MainScreen(MDScreen):
         self.color_width_dialog.open()
         pass
 
-    def on_color_width_dialog_ok_btn_release(self, instance: ColorWidthDialog, color: list, width: float):
+    def on_select_color_width(self, instance: ColorWidthDialog, color: list, width: float):
         self.color_button.represent_color = color
         self.painter.set_line_color(color)
         self.color_button.represent_width = width

@@ -26,24 +26,31 @@ class ColorWidthDialogContent(BoxLayout):
     """
     颜色和线宽选择对话框的显示内容
     """
-    # 存放选择结果的按钮
+    # 展示选择结果的按钮
     result_btn: ColorWidthRepresentButton = ObjectProperty(None)
     color_picker: QwtColorPicker = None
+
+    # 最终结果的颜色和线宽
+    _color: list = None
+    _width: float = None
 
     def __init__(self, **kwargs):
         """构造函数"""
         super().__init__(**kwargs)
-        Clock.schedule_once(lambda dt: self._create_color_picker(), 0)
+        Clock.schedule_once(lambda dt: self._lazy_init(), 0)
+        # 注册事件
+        self.register_event_type("on_select")
         pass
 
-    def _create_color_picker(self):
-        """异步创建color_picker"""
-        if self.color_picker is None:
-            self.color_picker = QwtColorPicker(
-                size_hint=(0.6, 1),
-            )
-            # 绑定颜色选择器的选择颜色事件，每次在颜色选择器中选择颜色都会触发
-            self.color_picker.bind(on_select_color=self.get_picker_selected_color)
+    def _lazy_init(self):
+        """延迟初始化"""
+        self.color_picker = QwtColorPicker(
+            size_hint=(0.6, 1),
+        )
+        # 绑定颜色选择器的选择颜色事件，每次在颜色选择器中选择颜色都会触发
+        self.color_picker.bind(on_select_color=self._on_selected_color_receiver)
+        self._color = self.result_btn.represent_color
+        self._width = self.result_btn.represent_width
         pass
 
     def on_width_change(self, *args):
@@ -55,6 +62,8 @@ class ColorWidthDialogContent(BoxLayout):
         :return:
         """
         self.result_btn.represent_width = args[1]
+        self._width = args[1]
+        self._emit_event()
         pass
 
     def on_color_change(self, *args):
@@ -67,6 +76,8 @@ class ColorWidthDialogContent(BoxLayout):
         """
         btn: ColorWidthRepresentButton = args[0]
         self.result_btn.represent_color = btn.represent_color
+        self._color = btn.represent_color
+        self._emit_event()
         pass
 
     def open_color_picker(self, *args):
@@ -77,21 +88,35 @@ class ColorWidthDialogContent(BoxLayout):
         self.color_picker.open()
         pass
 
-
-    def get_picker_selected_color(
+    def _on_selected_color_receiver(
             self,
             instance_color_picker: QwtColorPicker,
-            selected_color: list,
+            color: list,
     ):
         """
-        获取颜色选择器的选择结果,
-        用于绑定 MDColorPicker 的 on_release 事件
+        on_select_color的事件接收器
+        用于绑定 color_picker 的 on_release 事件
         :param instance_color_picker:
-        :param selected_color: 查看了 MDColorPicker 的源码，发现 selected_color 总是是一个长度为4的列
+        :param color: 被选中的颜色，是一个 rgba 列表
         :return:
         """
-        self.result_btn.represent_color = selected_color
-        # instance_color_picker.dismiss()
+        self.result_btn.represent_color = color
+        self._color = color
+        self._emit_event()
+        pass
+
+    def _emit_event(self):
+        """发射事件"""
+        self.dispatch("on_select", self._color, self._width)
+        pass
+
+    def on_select(self, color: list, width: float):
+        """
+        选定颜色和线宽时，发射该事件
+        :param color:
+        :param width:
+        :return:
+        """
         pass
 
     pass
@@ -108,40 +133,32 @@ class ColorWidthDialog(MDDialog):
         :param kwargs:
         """
         res_mgr = ResourceManager()
-        ok_btn = MDFlatButton(
-            text=res_mgr.get_lang_text('common', 'ok_btn'),
-            font_name=res_mgr.get_lang_font(),
-            theme_text_color="Custom"
-        )
-        # 将ok按钮的事件绑定到函数
-        ok_btn.bind(on_release=self._release_ok_btn)
         # type, content_cls, buttons 必须放在构造函数中； 因为父类构造函数初始化时，需要它们的信息
         color_width_dlg_content = ColorWidthDialogContent()
         super().__init__(
             title=res_mgr.get_lang_text('mainscreen', 'color_dlg_title', embed_font=True),
             type="custom",
             content_cls=color_width_dlg_content,
-            buttons=[ok_btn],
             **kwargs)
         # False时，点击空白处，不能自行关闭；True时，点击空白处可以自行关闭; 默认为True
         self.auto_dismiss = True
+        color_width_dlg_content.bind(on_select=self._on_select_receiver)
         # 注册事件
-        self.register_event_type("on_ok_btn_release")
+        self.register_event_type("on_select")
         pass
 
-    def _release_ok_btn(self, *args):
-        self.dismiss()
+    def _on_select_receiver(self, instance: ColorWidthDialogContent, color: list, width: float):
         # 事件分发
         self.dispatch(
-            "on_ok_btn_release",
+            "on_select",
             self.content_cls.result_btn.represent_color,
             self.content_cls.result_btn.represent_width
         )
         pass
 
-    def on_ok_btn_release(self, color: list, width: float):
+    def on_select(self, color: list, width: float):
         """
-        定义事件函数
+        当选定颜色和线宽时，发射该事件
         ok按钮被点击(并释放后)调用该函数
         :param color:
         :param width:
