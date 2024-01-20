@@ -3,6 +3,7 @@
 import os
 
 from kivy.lang import Builder
+from kivy.clock import Clock
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.button import MDFlatButton
@@ -29,13 +30,20 @@ class ColorWidthDialogContent(BoxLayout):
     result_btn: ColorWidthRepresentButton = ObjectProperty(None)
     color_picker: QwtColorPicker = None
 
-    def __int__(self, **kwargs):
-        """
-        构造函数
-        :param kwargs:
-        :return:
-        """
-        super().__int__(**kwargs)
+    def __init__(self, **kwargs):
+        """构造函数"""
+        super().__init__(**kwargs)
+        Clock.schedule_once(lambda dt: self._create_color_picker(), 0)
+        pass
+
+    def _create_color_picker(self):
+        """异步创建color_picker"""
+        if self.color_picker is None:
+            self.color_picker = QwtColorPicker(
+                size_hint=(0.6, 1),
+            )
+            # 绑定颜色选择器的选择颜色事件，每次在颜色选择器中选择颜色都会触发
+            self.color_picker.bind(on_select_color=self.get_picker_selected_color)
         pass
 
     def on_width_change(self, *args):
@@ -66,15 +74,9 @@ class ColorWidthDialogContent(BoxLayout):
         打开颜色选择器
         :return:
         """
-        res_mgr = ResourceManager()
-        if self.color_picker is None:
-            self.color_picker = QwtColorPicker(
-                size_hint=(0.6, 1),
-            )
-            # 绑定颜色选择器的选择颜色事件，每次在颜色选择器中选择颜色都会触发
-            self.color_picker.bind(on_select_color=self.get_picker_selected_color)
         self.color_picker.open()
         pass
+
 
     def get_picker_selected_color(
             self,
@@ -91,6 +93,8 @@ class ColorWidthDialogContent(BoxLayout):
         self.result_btn.represent_color = selected_color
         # instance_color_picker.dismiss()
         pass
+
+    pass
 
 
 class ColorWidthDialog(MDDialog):
@@ -112,10 +116,11 @@ class ColorWidthDialog(MDDialog):
         # 将ok按钮的事件绑定到函数
         ok_btn.bind(on_release=self._release_ok_btn)
         # type, content_cls, buttons 必须放在构造函数中； 因为父类构造函数初始化时，需要它们的信息
+        color_width_dlg_content = ColorWidthDialogContent()
         super().__init__(
             title=res_mgr.get_lang_text('mainscreen', 'color_dlg_title', embed_font=True),
             type="custom",
-            content_cls=ColorWidthDialogContent(),
+            content_cls=color_width_dlg_content,
             buttons=[ok_btn],
             **kwargs)
         # False时，点击空白处，不能自行关闭；True时，点击空白处可以自行关闭; 默认为True
