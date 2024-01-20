@@ -4,6 +4,8 @@ from kivy.graphics import Color, Ellipse, Line, Rectangle
 from kivy.properties import ListProperty, NumericProperty, OptionProperty
 from kivy.uix.button import Button
 
+from .curve import normalized_curve_points
+
 
 class ColorWidthRepresentButton(Button):
     """
@@ -17,8 +19,8 @@ class ColorWidthRepresentButton(Button):
     """represent_width 属性: 所代表的线宽"""
     represent_width = NumericProperty(5.0)
 
-    """显示类型: circle, square, line， 默认是 circle"""
-    display_type = OptionProperty("circle", options=["circle", "square", "line"])
+    """显示类型: circle, square, line, curve， 默认是 circle"""
+    display_type = OptionProperty("circle", options=["circle", "square", "line", "curve"])
 
     def __init__(self, **kwargs):
         """
@@ -60,7 +62,12 @@ class ColorWidthRepresentButton(Button):
                 pos_y = self.center_y
                 begin_pos_x = self.center_x - self.width/3
                 end_pos_x = self.center_x + self.width/3
-
                 Line(points=(begin_pos_x, pos_y, end_pos_x, pos_y), width=self.represent_width)
+            elif self.display_type == "curve":
+                points = []
+                for x, y in normalized_curve_points:
+                    points.append(self.x + x*self.width)
+                    points.append(self.y + y*self.height)
+                Line(points=points, width=self.represent_width)
         pass
 

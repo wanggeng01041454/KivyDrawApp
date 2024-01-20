@@ -13,7 +13,7 @@ from .resource import ResourceManager
 
 
 def config_app() -> None:
-    Config.set('graphics', 'multisamples', 8)
+    Config.set('graphics', 'multisamples', 16)
 
     res_mgr = ResourceManager()
     # 使用中文
