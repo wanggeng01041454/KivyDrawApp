@@ -3,6 +3,7 @@
 from .colorwidthdialog import ColorWidthDialog
 from .mymdfloatingactionbutton import MyMDFloatingActionButton
 from .colorwidthrepresentbutton import ColorWidthRepresentButton
+from .qwtcolorpicker import QwtColorPicker
 
 
 

@@ -7,13 +7,12 @@ from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.pickers import MDColorPicker
 
 from .colorwidthrepresentbutton import ColorWidthRepresentButton
 
 from ui import ui_common_path
 from tools import ResourceManager
-
+from .qwtcolorpicker import QwtColorPicker
 
 # 在导入本文件时，打开build对应的kv文件
 with open(
@@ -27,7 +26,8 @@ class ColorWidthDialogContent(BoxLayout):
     颜色和线宽选择对话框的显示内容
     """
     # 存放选择结果的按钮
-    result_btn = ObjectProperty(None)
+    result_btn: ColorWidthRepresentButton = ObjectProperty(None)
+    color_picker: QwtColorPicker = None
 
     def __int__(self, **kwargs):
         """
@@ -36,8 +36,7 @@ class ColorWidthDialogContent(BoxLayout):
         :return:
         """
         super().__int__(**kwargs)
-
-    pass
+        pass
 
     def on_width_change(self, *args):
         """
@@ -67,35 +66,30 @@ class ColorWidthDialogContent(BoxLayout):
         打开颜色选择器
         :return:
         """
-        # 根据 MDColorPicker 的源码实现，这里将size_hint_y设置为1，可以使得颜色选择器的高度占满屏幕
-        # 尽量让高度大点，否则会触发一个错误。
         res_mgr = ResourceManager()
-        color_picker = MDColorPicker(
-            size_hint=(0.8, 1),
-            type_color="HEX",
-            text_button_ok=res_mgr.get_lang_text('common', 'ok_btn', embed_font=True),
-            text_button_cancel=res_mgr.get_lang_text('common', 'cancel_btn', embed_font=True),
-        )
-        color_picker.bind(on_release=self.get_picker_selected_color)
-        color_picker.open()
+        if self.color_picker is None:
+            self.color_picker = QwtColorPicker(
+                size_hint=(0.6, 1),
+            )
+            # 绑定颜色选择器的选择颜色事件，每次在颜色选择器中选择颜色都会触发
+            self.color_picker.bind(on_select_color=self.get_picker_selected_color)
+        self.color_picker.open()
         pass
 
     def get_picker_selected_color(
             self,
-            instance_color_picker: MDColorPicker,
-            type_color: str,
+            instance_color_picker: QwtColorPicker,
             selected_color: list,
     ):
         """
         获取颜色选择器的选择结果,
         用于绑定 MDColorPicker 的 on_release 事件
         :param instance_color_picker:
-        :param type_color:
         :param selected_color: 查看了 MDColorPicker 的源码，发现 selected_color 总是是一个长度为4的列
         :return:
         """
         self.result_btn.represent_color = selected_color
-        instance_color_picker.dismiss()
+        # instance_color_picker.dismiss()
         pass
 
 

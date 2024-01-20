@@ -1,7 +1,8 @@
 [app]
 
 # (str) Title of your application
-title = QwtAiPainter
+# app在手机中显示的名称，支持中文名称
+title = AI绘图
 
 # (str) Package name
 package.name = aipainter
@@ -42,7 +43,7 @@ version = 0.1
 # 注意！所有依赖的 python 包都需要在这里添加，否则安卓程序将无法正常运行
 # kivymd 的官方文档中提到了 shader 问题，必须使用这个 master.zip 的版本才能配合 kivy=2.2.0以上的版本使用
 # 另一个选择就是使用  kivy==2.1.0, kivymd==1.1.1
-requirements = python3,kivy==2.3.0,https://github.com/kivymd/KivyMD/archive/master.zip,Pillow,PyYAML,requests,urllib3
+requirements = python3,kivy==2.3.0,https://github.com/kivymd/KivyMD/archive/master.zip,Pillow,olefile,PyYAML,requests,urllib3
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -52,7 +53,7 @@ requirements = python3,kivy==2.3.0,https://github.com/kivymd/KivyMD/archive/mast
 #presplash.filename = %(source.dir)s/data/presplash.png
 
 # (str) Icon of the application
-#icon.filename = %(source.dir)s/data/icon.png
+icon.filename = res/imgs/icon.png
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse

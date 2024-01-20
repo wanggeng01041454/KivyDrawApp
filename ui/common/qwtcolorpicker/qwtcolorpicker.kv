@@ -1,0 +1,236 @@
+#:kivy 2.3.0
+
+#:import STANDARD_INCREMENT kivymd.material_resources.STANDARD_INCREMENT
+#:import images_path kivymd.images_path
+#:import colors kivymd.color_definitions.colors
+#:import Window kivy.core.window.Window
+
+
+<SelectAlphaChannelWidget>
+    orientation: "vertical"
+    adaptive_height: True
+    spacing: "12dp"
+    padding: 0, 0, 0, "8dp"
+
+    FitImage:
+        size_hint_y: None
+        height: "36dp"
+        source: f"{images_path}/alpha_layer.png"
+        radius: [8,]
+
+        canvas.after:
+            Color:
+                rgba:
+                    root._rgb[:-1] + [root._opacity_value_selected_color]
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [8,]
+
+    MDSlider:
+        id: slider
+        size_hint_y: None
+        height: "12dp"
+        hint: False
+        max: 1
+        value: root._opacity_value_selected_color
+        on_value:
+            root._opacity_value_selected_color = self.value
+            if root.color_picker: \
+            root.color_picker._opacity_value_selected_color = self.value
+
+
+<SliderItem@MDBoxLayout>
+    spacing: "12dp"
+    color_slider: "Red"
+    max: 255
+    adaptive_height: True
+
+    MDSlider:
+        id: slider
+        size_hint_y: None
+        height: "36dp"
+        color: colors[root.color_slider]["500"]
+        max: root.max
+        value: 1 if root.max == 1 else 0
+        on_value:
+            root.parent.dispatch("on_slide_value", root.parent.get_color())
+
+    MDLabel:
+        adaptive_size: True
+        -text_size: None, None
+        pos_hint: {"center_y": .5}
+        text:
+            str(int(slider.value)) \
+            if root.max != 1 \
+            else str(round(slider.value, 1))
+
+
+<SliderTab>
+    orientation: "vertical"
+    padding: "12dp", "24dp", "12dp", 0
+    spacing: "24dp"
+
+    SliderItem:
+        id: slider_red
+        color_slider: "Red"
+
+    SliderItem:
+        id: slider_green
+        color_slider: "Green"
+
+    SliderItem:
+        id: slider_blue
+        color_slider: "Blue"
+
+    Widget:
+
+    SelectAlphaChannelWidget:
+        id: select_alpha_channel_widget
+        color_picker: root.color_picker
+
+
+<GradientTab>
+    orientation: "vertical"
+    padding: "12dp", "12dp", "12dp", 0
+    spacing: "8dp"
+
+    MDBoxLayout:
+        id: color_selection_box
+        spacing: "12dp"
+
+        Widget:
+            id: gradient_widget
+
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint_x: None
+            width: "24dp"
+
+            canvas.before:
+                StencilPush
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: root.color_picker.radius_color_scale
+                StencilUse
+
+            canvas.after:
+                StencilUnUse
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: root.color_picker.radius_color_scale
+                StencilPop
+
+            Image:
+                source: f"{images_path}/blue.png"
+                allow_stretch: True
+                keep_ratio: False
+                on_touch_down:
+                    if self.collide_point(*args[1].pos): \
+                    root.updated_canvas(self, args[1])
+
+            Image:
+                source: f"{images_path}/green.png"
+                allow_stretch: True
+                keep_ratio: False
+                on_touch_down:
+                    if self.collide_point(*args[1].pos): \
+                    root.updated_canvas(self, args[1])
+
+            Image:
+                source: f"{images_path}/yellow.png"
+                allow_stretch: True
+                keep_ratio: False
+                on_touch_down:
+                    if self.collide_point(*args[1].pos): \
+                    root.updated_canvas(self, args[1])
+
+            Image:
+                source: f"{images_path}/red.png"
+                allow_stretch: True
+                keep_ratio: False
+                on_touch_down:
+                    if self.collide_point(*args[1].pos): \
+                    root.updated_canvas(self, args[1])
+
+            Image:
+                source: f"{images_path}/black.png"
+                allow_stretch: True
+                keep_ratio: False
+                on_touch_down:
+                    if self.collide_point(*args[1].pos): \
+                    root.updated_canvas(self, args[1])
+
+    SelectAlphaChannelWidget:
+        id: select_alpha_channel_widget
+        color_picker: root.color_picker
+
+
+<TabColorList>
+    rv: rv
+
+    RecycleView:
+        id: rv
+        key_viewclass: "viewclass"
+        key_size: "height"
+
+        RecycleBoxLayout:
+            orientation: "vertical"
+            size_hint_y: None
+            height: self.minimum_height
+            padding: "8dp"
+            spacing: "8dp"
+            default_size_hint: 1, None
+            default_size: None, dp(48)
+
+
+<ColorListItem>
+    size_hint_y: None
+    padding: "12dp"
+    md_bg_color: root.color
+    radius: [8,]
+
+    MDLabel:
+        text: root.hue_code
+        theme_text_color: "Custom"
+        text_color: root.text_color
+        halign: "center"
+
+
+<QwtColorPicker>
+    MDBoxLayout:
+        orientation: "vertical"
+        MDBottomNavigation:
+            id: bottom_navigation
+            use_text: False
+            on_switch_tabs: root.dispatch("on_switch_tabs", *args)
+
+            MDBottomNavigationItem:
+                id: bottom_navigation_gradient
+                name: "bottom navigation gradient"
+                icon: "gradient-vertical"
+                text: "Gradient" # 调色板
+
+            MDBottomNavigationItem:
+                id: tune
+                name: "tune"
+                icon: "tune" # 滑块
+
+                SliderTab:
+                    color_picker: root
+                    on_slide_value:
+                        root.dispatch("on_select_color", args[1])
+
+            MDBottomNavigationItem:
+                id: view_headline
+                name: "view headline"
+                icon: "view-headline" # 色卡， 是高级模式
+
+                ColorListTab:
+                    id: color_list_tabs
+                    text_color_normal: 0, 0, 0, 1
+                    on_tab_switch: self.generates_list_colors(*args)
+                    color_picker: root
+
