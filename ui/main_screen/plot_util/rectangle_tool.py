@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
+
 from kivy.graphics import Color, Line
 from kivy.input import MotionEvent
 from kivy.uix.widget import Widget
 
-from ui.mainscreen.plotutil.abstractplottool import AbstractPlotTool
+from ui.main_screen.plot_util.abstract_plot_tool import AbstractPlotTool
 
 
-class LineTool(AbstractPlotTool):
+class RectangleTool(AbstractPlotTool):
     """
-    直线工具
+    矩形工具
     """
 
     # 绘图起始位置
@@ -19,6 +20,7 @@ class LineTool(AbstractPlotTool):
     # 是否开始了绘图， 是否接收到到过 touch down 事件
     _start = False
 
+    # todo 增加填充属性，实现矩形填充
     def __init__(self, parent: Widget):
         super().__init__(parent)
 
@@ -55,7 +57,10 @@ class LineTool(AbstractPlotTool):
         self._parent.canvas.after.clear()
         with self._parent.canvas.after:
             Color(*self._line_color)
-            Line(points=(self._start_pos_x, self._start_pos_y, touch.x, touch.y), width=self._line_width)
+            Line(rectangle=(self._start_pos_x,
+                            self._start_pos_y,
+                            touch.x - self._start_pos_x,
+                            touch.y - self._start_pos_y), width=self._line_width)
 
         return True
 
@@ -71,9 +76,13 @@ class LineTool(AbstractPlotTool):
         self._parent.canvas.after.clear()
         with self._parent.canvas:
             Color(*self._line_color)
-            Line(points=(self._start_pos_x, self._start_pos_y, touch.x, touch.y), width=self._line_width)
+            Line(rectangle=(self._start_pos_x,
+                            self._start_pos_y,
+                            touch.x - self._start_pos_x,
+                            touch.y - self._start_pos_y), width=self._line_width)
 
         # 触摸结束，重置状态
         self._reset()
 
         return True
+

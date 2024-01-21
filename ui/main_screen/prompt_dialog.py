@@ -5,6 +5,7 @@ from kivymd.uix.textfield import MDTextField
 
 from tools import ResourceManager
 
+
 class PromptDialog(MDDialog):
     """
     输入提示词对话框
@@ -21,7 +22,7 @@ class PromptDialog(MDDialog):
         self._create_text_field()
         super().__init__(
             type="custom",
-            title=res_mgr.get_lang_text('mainscreen', 'prompt_dlg_title', embed_font=True),
+            title=res_mgr.get_lang_text('main_screen', 'prompt_dlg_title', embed_font=True),
             content_cls=self.text_field,
             **kwargs)
         pass

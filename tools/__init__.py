@@ -2,5 +2,5 @@
 
 from .appconfig import config_app
 from .resource import ResourceManager
-from .globaltaskgroup import GlobalTaskGroup
+from .global_task_group import GlobalTaskGroup
 

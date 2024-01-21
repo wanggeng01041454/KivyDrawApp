@@ -6,18 +6,20 @@ from kivy.lang import Builder
 from kivy.clock import Clock
 from kivy.properties import ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
-from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 
-from .colorwidthrepresentbutton import ColorWidthRepresentButton
+from .color_width_represent_button import ColorWidthRepresentButton
 
 from ui import ui_common_path
 from tools import ResourceManager
-from .qwtcolorpicker import QwtColorPicker
+from .qwt_color_picker import QwtColorPicker
+
+"""导出的类"""
+__all__ = ['ColorWidthDialog']
 
 # 在导入本文件时，打开build对应的kv文件
 with open(
-    os.path.join(ui_common_path, "colorwidthdialog.kv"), encoding="utf-8"
+    os.path.join(ui_common_path, "color_width_dialog.kv"), encoding="utf-8"
 ) as kv_file:
     Builder.load_string(kv_file.read())
 
@@ -124,7 +126,8 @@ class ColorWidthDialogContent(BoxLayout):
 
 class ColorWidthDialog(MDDialog):
     """
-    选择颜色和线宽的对话框
+    选择颜色和线宽的对话框，用于选择画笔颜色和线宽
+    在选择颜色和线宽后，会发射 on_select 事件
     """
 
     def __init__(self, **kwargs):
@@ -136,7 +139,7 @@ class ColorWidthDialog(MDDialog):
         # type, content_cls, buttons 必须放在构造函数中； 因为父类构造函数初始化时，需要它们的信息
         color_width_dlg_content = ColorWidthDialogContent()
         super().__init__(
-            title=res_mgr.get_lang_text('mainscreen', 'color_dlg_title', embed_font=True),
+            title=res_mgr.get_lang_text('main_screen', 'color_dlg_title', embed_font=True),
             type="custom",
             content_cls=color_width_dlg_content,
             **kwargs)

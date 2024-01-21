@@ -4,7 +4,7 @@ from kivy.graphics import Color, Ellipse, Line, Rectangle
 from kivy.properties import ListProperty, NumericProperty, OptionProperty
 from kivy.uix.button import Button
 
-from .curve import normalized_curve_points
+from .curve_line_points import normalized_curve_points
 
 
 class ColorWidthRepresentButton(Button):

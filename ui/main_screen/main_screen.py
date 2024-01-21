@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import base64
+import os
 
 from kivy.clock import Clock
+from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivymd.uix.button import MDFlatButton, MDFloatingActionButton
 from kivymd.uix.dialog import MDDialog
@@ -9,22 +11,32 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.screen import MDScreen
 from PIL.Image import Image as PilImage
 
-from .plotutil import PlotToolType
+from .plot_util import PlotToolType
 
+from ui import ui_mainscreen_path
 from ui.common import ColorWidthDialog
 from ui.common import MyMDFloatingActionButton
 
-from .promptdialog import PromptDialog
+from .prompt_dialog import PromptDialog
 # 引用这个类，是为了在 kv 文件中使用这个类
-from .qwtpainterwidget import QwtPainterWidget
+from .qwt_painter_widget import QwtPainterWidget
 
 from conn import ConnManager
 from tools import ResourceManager
 
+__all__ = ['MainScreen']
+
+with open(
+    os.path.join(ui_mainscreen_path, "main_screen.kv"), encoding="utf-8"
+) as kv_file:
+    Builder.load_string(kv_file.read())
+
 
 class MainScreen(MDScreen):
     """
-    主界面
+    主界面, 用户绘图、输入提示词、执行AI处理命令；
+    当向AI引擎发送图片请求时，会发射 on_send_picture_request_event 事件，界面需要切换到等待状态；
+    当收到AI引擎的图片响应时，会发射 on_recv_picture_response_event 事件，界面需要切换到现实接收图片状态；
     """
     """绘图板"""
     painter = ObjectProperty(None)
@@ -45,13 +57,23 @@ class MainScreen(MDScreen):
     """是否正在进行AI处理"""
     is_in_ai_processing: bool = False
 
+    """要抛出的事件"""
+    __events__ = ("on_send_picture_request_event", "on_recv_picture_response_event")
+
     def __init__(self, **kwargs):
         """
         构造函数
-        todo 在构造函数中调用 set_cur_selected_hover_button 设置初始选中的按钮，会导致一些异常：
-        todo 包括: 在 is 比较时失效， 按钮的图标大小无法恢复等
         """
         super().__init__(**kwargs)
+        # 注册事件
+        self.register_event_type("on_send_picture_request_event")
+        self.register_event_type("on_recv_picture_response_event")
+        # 延迟初始化
+        Clock.schedule_once(lambda dt: self._lazy_init(), 0)
+        pass
+
+    def _lazy_init(self):
+        """延迟初始化，目的是为了让界面尽快加载"""
         # 设置默认状态, 使用pencil工具
         default_width = 3.0
         default_color = [0, 0, 0, 1]
@@ -76,7 +98,7 @@ class MainScreen(MDScreen):
 
         self.empty_prompt_hint_dialog = MDDialog(
             title=res_mgr.get_lang_text('common', 'hint', embed_font=True),
-            text=res_mgr.get_lang_text('mainscreen', 'prompt_empty_hint', embed_font=True),
+            text=res_mgr.get_lang_text('main_screen', 'prompt_empty_hint', embed_font=True),
             buttons=[
                 hint_dlg_ok_btn
             ]
@@ -85,9 +107,6 @@ class MainScreen(MDScreen):
 
         # 创建连接管理器
         self.conn_manager = ConnManager()
-        # 注册事件
-        self.register_event_type("on_send_picture_request_event")
-        self.register_event_type("on_recv_picture_response_event")
         pass
 
     def on_show_prompt_dialog(self, *args):
@@ -128,12 +147,11 @@ class MainScreen(MDScreen):
     def recv_ai_process_result_cb(self, ai_img: str):
         """
         收到 AI 处理结果的回调函数
+        :param ai_img: AI处理后的图片，base64编码， 该图片格式固定为png
         """
-        print("on_ai_process_result:{}".format(ai_img))
-
-        # todo 将 ai_img解码 PIL.Image
-        img: PilImage = None
-        self.dispatch("on_recv_picture_response_event", img)
+        img_data = base64.b64decode(ai_img)
+        fmt = 'png'
+        self.dispatch("on_recv_picture_response_event", img_data, fmt)
         # 清理正在进行AI处理的标志
         self.is_in_ai_processing = False
         pass
@@ -142,8 +160,12 @@ class MainScreen(MDScreen):
         """发送图片请求事件"""
         pass
 
-    def on_recv_picture_response_event(self, img: PilImage):
-        """收到图片响应事件"""
+    def on_recv_picture_response_event(self, img_data: bytes, fmt: str):
+        """
+        收到图片响应事件
+        :param img_data: 图片数据, 二进制数据
+        :param fmt: 图片格式, 以字符串表示
+        """
         pass
 
     def open_color_width_dialog(self):

@@ -5,7 +5,7 @@ common:
   hint: 提示
 
 # MainScreen模块的文本
-mainscreen:
+main_screen:
   color_dlg_title: 选择颜色和线宽
   prompt_dlg_title: 请输入传递给人工智能的提示词（必须使用英语）
   prompt_empty_hint: 传递给人工智能的提示词不能为空

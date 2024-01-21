@@ -8,33 +8,22 @@ from tools import config_app
 
 config_app()
 
-from kivy.lang import Builder
-
 from kivymd.app import MDApp
-from kivymd.uix.screenmanager import ScreenManager
 
-from ui.mainscreen.mainscreen import MainScreen
+from ui.screen_manager import MyMDScreenManager
 
 
 class MainApplication(MDApp):
     """
     This is the main application class of the app.
     """
-
-    screen_manager = None
-    main_screen = None
-
     def build(self):
         """
         This method is automatically called when the app is initialized
         :return:
         """
-        Builder.load_file("kvs/mainui.kv")
-
-        self.screen_manager = ScreenManager()
-        self.main_screen = MainScreen()
-        self.screen_manager.add_widget(self.main_screen)
-        return self.screen_manager
+        screen_manager = MyMDScreenManager()
+        return screen_manager
 
     async def async_run_wrapper(self, task_group: GlobalTaskGroup):
         """
@@ -70,11 +59,6 @@ if __name__ == '__main__':
 # 从服务器接收的数据可以保存在本地
 
 # todo
-# 1. 为所有的按钮增加点击声音；
-# 2. 为提示词、ai 按钮增加点击颜色效果；
+
 # 3. 支持中文提示词；
 # 4. 实现请求的发送和接收；
-# 5. 去掉 hover 效果，在设备上展现不出hover效果；
-# 6. 垃圾箱在点击后，显示效果一直在，不会消失；
-# 7. 所有按钮的release效果取消，只保留press效果；
-# 8. 程序在手机端开机后没有全屏

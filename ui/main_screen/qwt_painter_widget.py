@@ -6,7 +6,7 @@ from kivy.input import MotionEvent
 from kivy.uix.widget import Widget
 from kivy.core.image import Image as CoreImage
 
-from .plotutil import *
+from .plot_util import *
 from PIL.Image import Image as PilImage
 
 

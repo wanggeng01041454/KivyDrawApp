@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from kivy.uix.widget import Widget
 
-from ui.mainscreen.plotutil.abstractplottool import AbstractPlotTool
-from ui.mainscreen.plotutil.linetool import LineTool
-from ui.mainscreen.plotutil.penciltool import PencilTool
-from ui.mainscreen.plotutil.plottooltype import PlotToolType
-from ui.mainscreen.plotutil.rectangletool import RectangleTool
+from ui.main_screen.plot_util.abstract_plot_tool import AbstractPlotTool
+from ui.main_screen.plot_util.line_tool import LineTool
+from ui.main_screen.plot_util.pencil_tool import PencilTool
+from ui.main_screen.plot_util.plot_tool_type import PlotToolType
+from ui.main_screen.plot_util.rectangle_tool import RectangleTool
 
 
 class PlotToolManager:

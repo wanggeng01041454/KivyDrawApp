@@ -4,7 +4,7 @@ import asyncio
 from collections.abc import Callable
 from typing import Union
 
-from tools.globaltaskgroup import GlobalTaskGroup
+from tools.global_task_group import GlobalTaskGroup
 from .protocal import *
 
 """接收到AI生成图片的回调函数"""
@@ -93,4 +93,8 @@ class ConnManager:
         # todo 模拟发送数据，后续调整为真实发送
         await asyncio.sleep(3)
         # todo
-        return "xxxxxx"
+        # import base64
+        # file = "/tmp/a.png"
+        # with open(file, 'rb') as f:
+        #     return base64.b64encode(f.read()).decode()
+        return "1234567890"

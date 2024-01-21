@@ -47,7 +47,7 @@ from ui import ui_common_path
 __all__ = ("QwtColorPicker",)
 
 with open(
-    os.path.join(ui_common_path, "qwtcolorpicker", "qwtcolorpicker.kv"),
+    os.path.join(ui_common_path, "qwt_color_picker", "qwt_color_picker.kv"),
     encoding="utf-8",
 ) as kv_file:
     Builder.load_string(kv_file.read())
