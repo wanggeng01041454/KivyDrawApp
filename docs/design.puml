@@ -1,0 +1,50 @@
+@startuml 1.画图部分的设计模式 
+    title
+        画图部分的设计模式
+    end title
+
+    class MainScreen {
+        painter: QwtPainterWidget
+    }
+
+    class ColorWidthDialog
+
+    class QwtPainterWidget {
+        _tool_manager: PlotToolManager
+        ....
+        _cur_plot_tool: AbstractPlotTool
+    }
+
+    MainScreen *-- QwtPainterWidget
+    MainScreen *-- ColorWidthDialog
+
+    class PlotToolManager
+
+    class AbstractPlotTool {
+        set_line_width()
+        ....
+        set_line_color()
+        ....
+        on_touch_down()
+        ....
+        on_touch_move()
+        ....
+        on_touch_up()
+    }
+
+    QwtPainterWidget o-- PlotToolManager
+    QwtPainterWidget o-- AbstractPlotTool
+
+    class LineTool
+    class PencilTool
+    class RectangleTool
+
+    AbstractPlotTool <|-- LineTool
+    AbstractPlotTool <|-- PencilTool
+    AbstractPlotTool <|-- RectangleTool
+    
+    PlotToolManager o-- LineTool
+    PlotToolManager o-- PencilTool
+    PlotToolManager o-- RectangleTool
+
+@enduml
